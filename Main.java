@@ -4,7 +4,10 @@ public class Main{
 		Matriks mat = new Matriks();
 		mat.BacaMatriks();
 		mat.OutputMatriks();
-		Matriks matInverse = mat.MatriksInverse();
-		matInverse.OutputMatriks();
+		// Matriks matInverse = mat.MatriksAdjoin();
+		// matInverse.OutputMatriks();
+
+		mat.GaussJordan();
+		mat.OutputMatriks();
 	}	
 }

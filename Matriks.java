@@ -163,6 +163,18 @@ public class Matriks{
 		return newMat;
 	}
 
+	public void Gauss(){
+		for (int i = 1; i<=GetLastIdxBrs()-1; ++i){
+			for (int k = i+1; k<=GetLastIdxBrs(); ++k){
+				AddBaris(k,i,-Elmt(k,i)/Elmt(i,i));
+			}
+		}
+		for (int i = 1; i<=GetLastIdxBrs(); ++i){
+			SetElmt(i,GetLastIdxKol(), Elmt(i,GetLastIdxKol())/Elmt(i,i));
+			SetElmt(i,i,1);
+		}
+	}
+
 	public void GaussJordan(){
 		double temp;
 		for (int j = 1; j<=GetLastIdxKol()-1; ++j){
@@ -175,11 +187,13 @@ public class Matriks{
 				}
 			}
 		}
-		for (int i = 1; i<=GetLastIdxBrs(); ++i){
-			SetElmt(i,i,1);
+		for (int i = 1; i<=GetLastIdxBrs(); ++i){	
 			SetElmt(i,GetLastIdxKol(), Elmt(i,GetLastIdxKol())/Elmt(i,i));
+			SetElmt(i,i,1);
 		}
 	}
 
-	
+	public void Cramer(){
+
+	}
 }
