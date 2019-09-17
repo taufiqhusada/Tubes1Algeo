@@ -1,12 +1,10 @@
-public class Spl{
-    
-    public static void main(String[] args) {
-        System.out.println("");
-        //spl a = new spl();
-        //BacaSPL();
-    }
+import java.util.Scanner;
 
-    public static void BacaSPL(){
-        System.out.println("Ini hasilnya:");
+public class Spl extends Matriks{
+    public Scanner input = new Scanner(System.in);
+    
+    /***********   Input    ***********/
+    public void BacaSPL(){
+        
     }
 }
