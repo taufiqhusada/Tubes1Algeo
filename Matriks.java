@@ -163,34 +163,62 @@ public class Matriks{
 		return newMat;
 	}
 
+	public double GetFirstNonZero(int row){
+		for (int j = 1; j<=GetLastIdxKol(); ++j){
+			if (Elmt(row,j)!=0) return Elmt(row,j);
+		}
+		return 0;
+	}
+
+	public int GetPosFirstOne(int row){
+		for (int j = 1; j<=GetLastIdxKol(); ++j){
+			if (Elmt(row,j)==1) return j;
+		}
+		return 0;
+	}
+
 	public void Gauss(){
+		
 		for (int i = 1; i<=GetLastIdxBrs()-1; ++i){
-			for (int k = i+1; k<=GetLastIdxBrs(); ++k){
-				AddBaris(k,i,-Elmt(k,i)/Elmt(i,i));
+			boolean isDiagonalZero = (Elmt(i,i)==0);
+			int row = i;
+			while(isDiagonalZero && (row<=GetLastIdxBrs())){
+				if (Elmt(row,i)!=0){
+					isDiagonalZero = false;
+					TukarBaris(i,row);
+				}
+				row++;
+			}
+			if (!isDiagonalZero){
+				for (int k = i+1; k<=GetLastIdxBrs(); ++k){
+					AddBaris(k,i,-Elmt(k,i)/Elmt(i,i));
+				}
 			}
 		}
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
-			SetElmt(i,GetLastIdxKol(), Elmt(i,GetLastIdxKol())/Elmt(i,i));
-			SetElmt(i,i,1);
+			double temp = GetFirstNonZero(i);
+			if (temp!=0){
+				for (int j = i; j<=GetLastIdxKol(); ++j ){
+					SetElmt(i,j, Elmt(i,j)/temp);
+				}	
+			}	
 		}
 	}
 
 	public void GaussJordan(){
-		double temp;
-		for (int j = 1; j<=GetLastIdxKol()-1; ++j){
-			for (int i =1; i<=GetLastIdxBrs(); ++i){
-				if (i!=j){
-					temp = Elmt(i,j)/Elmt(j,j);
-					for (int k = 1; k<=GetLastIdxKol(); ++k ){
-						SetElmt(i,k,Elmt(i,k)-temp*Elmt(j,k));
+		this.Gauss();
+		for (int i = 1; i<=GetLastIdxBrs(); ++i){
+			int pos = GetPosFirstOne(i);
+			if (pos!=0){
+				for (int k=1; k<=GetLastIdxBrs(); ++k){
+					if (k!=i){
+						double fiElmt = Elmt(k,pos);
+						AddBaris(k,i,-fiElmt);
 					}
 				}
 			}
 		}
-		for (int i = 1; i<=GetLastIdxBrs(); ++i){	
-			SetElmt(i,GetLastIdxKol(), Elmt(i,GetLastIdxKol())/Elmt(i,i));
-			SetElmt(i,i,1);
-		}
+
 	}
 
 	public void Cramer(){
