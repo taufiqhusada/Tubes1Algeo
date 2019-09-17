@@ -163,14 +163,23 @@ public class Matriks{
 		return newMat;
 	}
 
+	public void GaussJordan(){
+		double temp;
+		for (int j = 1; j<=GetLastIdxKol()-1; ++j){
+			for (int i =1; i<=GetLastIdxBrs(); ++i){
+				if (i!=j){
+					temp = Elmt(i,j)/Elmt(j,j);
+					for (int k = 1; k<=GetLastIdxKol(); ++k ){
+						SetElmt(i,k,Elmt(i,k)-temp*Elmt(j,k));
+					}
+				}
+			}
+		}
+		for (int i = 1; i<=GetLastIdxBrs(); ++i){
+			SetElmt(i,i,1);
+			SetElmt(i,GetLastIdxKol(), Elmt(i,GetLastIdxKol())/Elmt(i,i));
+		}
+	}
 
-	// cramer
-
-	// public double[][] Cramer(){
-	// 	for (int j = 1; j<=GetLastIdxKol()-1; ++j){
-	// 		Matriks temp = new Matriks();
-	// 		temp.MakeMatriks(NBrsEff,NKolEff-1);
-			
-	// 	}
-	// }
+	
 }
