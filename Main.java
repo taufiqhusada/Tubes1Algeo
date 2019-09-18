@@ -4,19 +4,14 @@ public class Main{
 		Matriks mat = new Matriks();
 		mat.BacaMatriks();
 		mat.OutputMatriks();
-		Matriks mat2 = mat;
-		Matriks mat3 = mat;
-		// Matriks matInverse = mat.MatriksAdjoin();
-		// matInverse.OutputMatriks();
+		Matriks mat1 = new Matriks();
+		mat1.MakeMatriks(mat.GetLastIdxBrs(), mat.GetLastIdxKol(), mat.M);
 
-		mat.Gauss();
-		mat.OutputMatriks();
+		mat1.GaussJordan();
+		mat1.OutputMatriks();
 
-		mat2.GaussJordan();
-		mat2.OutputMatriks();
-
-		double []hasil = mat3.Cramer();
-		for (int i = 1; i<=mat3.GetLastIdxKol()-1; ++i){
+		double []hasil = mat.Cramer();
+		for (int i = 1; i<=mat.GetLastIdxKol()-1; ++i){
 			System.out.println(hasil[i]);
 		}
 	}	
