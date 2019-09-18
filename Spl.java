@@ -38,10 +38,10 @@ public class Spl extends Matriks{
         else if (MetodePenyelesaian==2){     //Dengan Gauss - Jordan
             this.GaussJordan();
         }
-        else if (MetodePenyelesaian==3){     //Dengan Matriks Balikan
+        /*else if (MetodePenyelesaian==3){     //Dengan Matriks Balikan
             this.MatriksInverse();
         }
-        /*else if (MetodePenyelesaian==4){     //Dengan Cramer
+        else if (MetodePenyelesaian==4){     //Dengan Cramer
             this.Cramer();;
         }*/
     }
