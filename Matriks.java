@@ -27,6 +27,12 @@ public class Matriks{
 		NKolEff = NK;
 	}
 
+	public void MakeMatriks(int NB, int NK, double[][] tab){
+		M = tab;
+		NBrsEff = NB;
+		NKolEff = NK;
+	}
+
 	public double Elmt(int i, int j){
 		return M[i][j];
 	}
@@ -221,7 +227,33 @@ public class Matriks{
 
 	}
 
-	public void Cramer(){
+	public void SwapCol(int col1, int col2){
+		double temp;
+		for (int i = 1; i<=GetLastIdxBrs(); ++i){
+			temp = Elmt(i,col1);
+			SetElmt(i,col1,Elmt(i,col2));
+			SetElmt(i,col2,temp);
+		}
+	}
 
+	
+
+	public double[] Cramer(){
+		double[] hasil = new double[NKolEff];
+		int posSolusi = 1;
+		Matriks temp = new Matriks();
+		temp.MakeMatriks(NBrsEff,NKolEff,this.M);
+		temp.NKolEff--;
+		double det = temp.Determinan();
+		for (int j = 1; j<=GetLastIdxKol()-1; ++j){
+			temp = new Matriks();
+			temp.MakeMatriks(NBrsEff,NKolEff,this.M);
+			temp.SwapCol(GetLastIdxKol(),j);
+			temp.NKolEff--;
+			double detNow = temp.Determinan();
+			hasil[posSolusi] = detNow/det;
+			posSolusi++;
+		}
+		return hasil;
 	}
 }
