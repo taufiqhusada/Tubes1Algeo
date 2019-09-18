@@ -63,7 +63,7 @@ public class Matriks{
 		BacaElemenMatrix(NB,NK);
 	}
 
-	public void BacaElemenMatrix(int NB, int NK){
+	public void BacaElemenMatriks(int NB, int NK){
 		for (int i = 1; i<=NB; ++i){
 			for (int j= 1; j<=NK; ++j){
 				SetElmt(i,j,input.nextDouble());
