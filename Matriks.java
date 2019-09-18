@@ -67,6 +67,14 @@ public class Matriks{
 		}
 	}
 
+	public void BacaElemenMatrix(int NB, int NK){
+		for (int i = 1; i<=NB; ++i){
+			for (int j= 1; j<=NK; ++j){
+				SetElmt(i,j,input.nextDouble());
+			}
+		}
+	}
+
 	public void OutputMatriks(){
 		//System.out.println("Matriksnya sebagai berikut");
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
