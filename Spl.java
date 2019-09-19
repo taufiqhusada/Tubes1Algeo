@@ -53,21 +53,28 @@ public class Spl extends Matriks{
         }*/
         else if (MetodePenyelesaian==4){     //Dengan Cramer
             if (this.NPers==this.NPeubah){
-                double det = this.Determinan();
+                Matriks Mat = new Matriks();
+                Mat.MakeMatriks(this.GetLastIdxBrs(), this.GetLastIdxKol());
+                CopyTab(this.M, Mat.M, this.GetLastIdxBrs(), this.GetLastIdxKol());
+                Mat.NKolEff--;
+                double det = Mat.Determinan();
+                Mat.NKolEff++;
+                System.out.println(det);
                 if (det==0){
                     this.JenisSolusi = -1;
                 }
                 else{
-                    this.Solusi = this.Cramer();
-                    for (int i = 1; i<=this.Solusi.length;++i){
-                        this.Solusi[i]/=det;
-                    }
+                    this.Solusi = Mat.Cramer();
                     this.JenisSolusi = 1;
                 }
             }
             else{
                 this.JenisSolusi = -1;
             }
+        }
+
+        if (this.Solusi == 2){
+            this.Parametrik();
         }
     }
 
@@ -130,6 +137,12 @@ public class Spl extends Matriks{
                 return 2;
             }
         }
+    }
+
+    public void Parametrik()
+    /*  Menentukan fungsi parametrik*/
+    {
+        System.out.println("Solusinya ada banyak hahaha");
     }
 
     public double[] SolusiSPLGaussJordan()
