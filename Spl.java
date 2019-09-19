@@ -48,9 +48,34 @@ public class Spl extends Matriks{
             this.GaussJordan();
             SPLGauss(2);
         }
-        /*else if (MetodePenyelesaian==3){     //Dengan Matriks Balikan
-            this.MatriksInverse();
-        }*/
+        else if (MetodePenyelesaian==3){     //Dengan Matriks Balikan
+            if (this.NBrsEff==(this.NKolEff-1)){
+                this.NKolEff--;
+                double det = this.Determinan();
+                this.NKolEff++;
+                if (det!=0){
+                    double[] hasilSPL = new double[(this.NBrsEff+1)];
+                    for (int i=1;i<=this.NBrsEff;i++){
+                        hasilSPL[i] = this.Elmt(i, this.NKolEff);
+                    }
+                    this.NKolEff--;
+                    Matriks temp = new Matriks();
+                    temp.MakeMatriks(this.NBrsEff, this.NKolEff);
+                    temp = this.MatriksInverse();
+
+                    this.Solusi = temp.KaliMatriks1D(hasilSPL);
+                    
+                    this.NKolEff++;
+                    this.JenisSolusi =1;
+                }
+                else{
+                    this.JenisSolusi=-1;
+                }
+            }
+            else{
+                this.JenisSolusi=-1;
+            }
+        }
         else if (MetodePenyelesaian==4){     //Dengan Cramer
             if (this.NPers==this.NPeubah){
                 Matriks Mat = new Matriks();

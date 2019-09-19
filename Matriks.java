@@ -96,6 +96,22 @@ public class Matriks{
 		}
 	}
 
+	public double[]	KaliMatriks1D(double[] M2)
+	/*Menghasilkan matriks 1 dimensi untuk menghasilkan solusi spl
+	Ukuran M1(this): M*N
+	Ukuran M2: N*1 */
+	{
+		double[] res = new double[(this.NBrsEff+1)];
+
+		for (int i=1; i<=this.NBrsEff; ++i){
+			res[i] = 0;
+			for (int j=1;j<=this.NKolEff; ++j){
+				res[i] += (this.Elmt(i, j)*M2[j]);
+			}
+		}
+		return res;
+	}
+
 	public void Tranpose(){
 		// Prosedur untuk mentranpose Matrix
 		double[][] temp = new double[NKolEff+1][NBrsEff+1];
