@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 import java.lang.Math; 
 
@@ -187,7 +184,10 @@ public class Matriks{
 			}
 		}
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
-			double temp = GetFirstNonZero(i);
+			double temp = Elmt(i,i);
+			if (temp==0){
+				return 0;
+			}
 			res*=temp;
 			if (temp!=0){
 				for (int j = i; j<=GetLastIdxKol(); ++j ){
@@ -341,5 +341,28 @@ public class Matriks{
 			posSolusi++;
 		}
 		return hasil;
+	}
+
+	public void BacaFileMatriks(String namaFile) throws FileNotFoundException{
+		Scanner input = new Scanner(new FileReader(namaFile));
+		double [][] inputArray = new double[100][100];
+		int i = 1, row=0, col = 0;
+		int k;
+		while(input.hasNextLine()){
+			String[] line = input.nextLine().trim().split(" ");
+
+			for (int j = 0; j<line.length; j++){
+				inputArray[i][j+1] = Double.parseDouble(line[j]);
+				if (i==1)col++;
+			}
+			i++;
+			row++;
+		}
+		input.close();
+		MakeMatriks(row,col,inputArray);
+	}
+
+	public void TulisFileMatriks(String namaFile){
+
 	}
 }
