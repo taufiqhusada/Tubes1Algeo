@@ -73,7 +73,7 @@ public class Spl extends Matriks{
             }
         }
 
-        if (this.Solusi == 2){
+        if (this.JenisSolusi == 2){
             this.Parametrik();
         }
     }

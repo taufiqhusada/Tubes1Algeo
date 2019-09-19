@@ -4,18 +4,57 @@ import java.io.FileNotFoundException;
 
 public class Main{
 	static Scanner input = new Scanner(System.in);
+
+	public static void menu(){
+		System.out.println("Selamat datang di operasi-operasi matriks");
+		System.out.println("Menu:");
+		System.out.println("1. Sistem Persamaan Linier");
+		System.out.println("2. Determinan");
+		System.out.println("3. Matriks Balikan");
+		System.out.println("4. Matriks Kofaktor");
+		System.out.println("5. Adjoin");
+		System.out.println("6. Interpolasi Polinom");
+		System.out.println("7. Keluar");
+	}
+
+	public static void metode(){
+		System.out.println("Metode apa yang ingin digunakan?");
+		System.out.println("1. Metode Eliminasi Gauss");
+		System.out.println("2. Metode Eliminasi Gauss Jordan");
+		System.out.println("3. Metode Matriks Balikan");
+		System.out.println("4. Kaidah Cramer");
+	}
 	public static void main(String[] args){
-<<<<<<< HEAD
+		int pil;
+		do{
+			menu();
+			pil = input.nextInt();
 
+			if (pil==1){
+				Spl spl = new Spl();
+				Spl temp = new Spl();
+				int met;
+				spl.BacaSPL();
+				temp.NPers=spl.NPers;
+				temp.NPeubah = spl.NPeubah;
+				temp.MakeMatriks(spl.NBrsEff, spl.NKolEff);
+				do{
+					metode();
+					met = input.nextInt();
+					if (met>0){
+						temp.CopyTab(spl.M, temp.M, spl.NBrsEff, spl.NKolEff);
+						temp.PenyelesaianSPL(met);
+						temp.OutputSPL();
+						temp.OutputMatriks();
+					}
+				}while (met>0);
+			}
+		}while(pil!=7);
 
-		// System.out.println("Hello World!");
-=======
-		/*System.out.println("Hello World!");
->>>>>>> 1fc48d59c7e976ebae9bb786ff3a20f79fa969d6
-		Matriks mat = new Matriks();
+		/*Matriks mat = new Matriks();
 		mat.BacaMatriks();
 		mat.OutputMatriks();
-		System.out.println(mat.DeterminanOBE());
+		System.out.println(mat.DeterminanOBE());*/
 
 		
 		// Matriks mat1 = new Matriks();
@@ -29,32 +68,5 @@ public class Main{
 		// Matriks matInverse = mat.MatriksInverse();
 		// matInverse.OutputMatriks();
 		
-
-<<<<<<< HEAD
-		// double []hasil = mat.Cramer();
-		// for (int i = 1; i<=mat.GetLastIdxKol()-1; ++i){
-		// 	System.out.println(hasil[i]);
-		// }
-		/*	Untuk mendebug Spl
-=======
-		double []hasil = mat.Cramer();
-		for (int i = 1; i<=mat.GetLastIdxKol()-1; ++i){
-			System.out.println(hasil[i]);
-		}
-			Untuk mendebug Spl*/
->>>>>>> 1fc48d59c7e976ebae9bb786ff3a20f79fa969d6
-		Spl data = new Spl();
-		data.BacaSPL();
-		int pilihan;
-		do{
-			pilihan = input.nextInt();
-			if (pilihan>0){
-				Spl temp = data;
-				temp.PenyelesaianSPL(pilihan);
-				temp.OutputSPL();
-				temp.OutputMatriks();
-			}
-		}while(pilihan>0);
-	}	
-
+	}
 }

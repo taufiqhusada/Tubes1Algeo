@@ -347,7 +347,6 @@ public class Matriks{
 		Scanner input = new Scanner(new FileReader(namaFile));
 		double [][] inputArray = new double[100][100];
 		int i = 1, row=0, col = 0;
-		int k;
 		while(input.hasNextLine()){
 			String[] line = input.nextLine().trim().split(" ");
 
