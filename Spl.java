@@ -30,6 +30,12 @@ public class Spl extends Matriks{
                 System.out.printf("x%d = %.2f\n",i,this.Solusi[i]);
             }
         }
+        else if (this.JenisSolusi == 2){
+            System.out.println("Solusi Parametrik");
+            for (int i = 1; i<this.Solusi1.length;++i){
+                System.out.printf("x%d = %s\n",i,this.Solusi1[i]);
+            }  
+        }
         else if (this.JenisSolusi==-1){
             System.out.println("Tidak ada solusi yang memenuhi");
         }
@@ -121,6 +127,9 @@ public class Spl extends Matriks{
                 this.Solusi = this.SolusiSPLGaussJordan();
             }
         }
+        else if (this.JenisSolusi==2){
+            this.Parametrik();
+        }
     }
 
     public boolean IsPeubahNol(int i)
@@ -164,10 +173,47 @@ public class Spl extends Matriks{
         }
     }
 
+    int IsOnlyOne(int i){
+        int j=1,pos=0;
+        while ((this.Elmt(i, j)==0) && (j<this.NPeubah)){
+            j++;
+        }
+        if (this.Elmt(i,j)!=0){
+            pos = j++;
+            boolean AdaLain = false;
+            while ((!AdaLain) && (j<=this.NPeubah)){
+                if (this.Elmt(i, j) != 0){
+                    AdaLain = true;
+                    pos=0;
+                }
+                else{
+                    j++;
+                }
+            }
+        }
+        return pos;
+    }
+
     public void Parametrik()
     /*  Menentukan fungsi parametrik*/
     {
-        System.out.println("Solusinya ada banyak hahaha");
+        boolean[] SudahBrs = new boolean[this.NBrsEff+1];
+        boolean[] SudahPeubah = new boolean[this.NPeubah+1];
+        this.Solusi1 = new String[(this.NPeubah+1)];
+
+        for (int i=1; i<=this.NBrsEff; i++){
+            int pos = IsOnlyOne(i);
+            if (pos!=0){
+                SudahBrs[i] = true;
+                SudahPeubah[pos]=true;
+                this.Solusi1[pos] = Double.toString(this.Elmt(i, this.NKolEff));
+            }
+        }
+        for (int i=1; i<=this.NPeubah; i++){
+            if (!SudahPeubah[i]){
+                this.Solusi1[i] = "xxx";
+            }
+        }
     }
 
     public double[] SolusiSPLGaussJordan()
