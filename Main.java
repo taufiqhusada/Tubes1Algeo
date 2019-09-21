@@ -29,6 +29,7 @@ public class Main{
 		do{
 			menu();
 			pil = input.nextInt();
+			if (pil!=7) System.out.println();
 
 			if (pil==1){
 				Spl spl = new Spl();
@@ -41,11 +42,13 @@ public class Main{
 				do{
 					metode();
 					met = input.nextInt();
+					System.out.println();
+
 					if (met>0){
 						temp.CopyTab(spl.M, temp.M, spl.NBrsEff, spl.NKolEff);
 						temp.PenyelesaianSPL(met);
 						temp.OutputSPL();
-						temp.OutputMatriks();
+						temp.OutputMatriks(); //buat debug matriks
 					}
 				}while (met>0);
 			}

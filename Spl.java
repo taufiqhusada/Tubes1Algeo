@@ -265,7 +265,7 @@ public class Spl extends Matriks{
         for (int i=1; i<=this.NPeubah; i++){
             if (SudahPeubah[i]==0){
                 if (IdxParametrik[i]!=0){
-                    this.Solusi1[i] = "r"+Integer.toString(i);
+                    this.Solusi1[i] = "r"+Integer.toString(IdxParametrik[i]);
                 }
                 else{
                     this.Solusi1[i] = "r"+Integer.toString(cnt++);
