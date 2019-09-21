@@ -104,6 +104,7 @@ public class Spl extends Matriks{
             }
         }
 
+        //Jika solusi merupakan parametrik/ solusi banyak
         if (this.JenisSolusi == 2){
             this.Parametrik();
         }
@@ -144,32 +145,30 @@ public class Spl extends Matriks{
 
     public int PemilahSolusi()
     /*Mengembalikan 1 apabila ada solusi (solusi unik), mengembalikan 2 apabila solusi banyak (parametrik),
-    mengembalikan -1 apabila tidak ada solusi*/    
+    mengembalikan -1 apabila tidak ada solusi
+    (setelah dilakukan gauss atau gauss jordan*/    
     {
-        int i=this.GetLastIdxBrs();
+        int i=this.GetLastIdxBrs(),cnt=0; //cnt->banyak baris yang peubah nol semua
         boolean AdaSolusi = true;
 
-        if (this.NPers!=this.NPeubah){
-            return 2;
-        }
-        else{   //Peubah == Persamaan (square)
-            while ((this.IsPeubahNol(i)) && (i>this.GetLastIdxBrs()) && AdaSolusi){
-                if (this.Elmt(i, this.GetLastIdxKol())!=0){
-                    AdaSolusi = false;
-                }
-                else{
-                    i--;
-                }
-            }
-            if (!AdaSolusi || (this.IsPeubahNol(i) && (Elmt(i, this.GetLastIdxKol())!=0)) ){    // Tidak ada solusi ketika Peubah 0 semua, tp ada nilai
-                return -1;
-            }
-            else if (!this.IsPeubahNol(i)) {     // i(brs yg ada 1) == Peubah (kol) -> solusi unik 
-                return 1;
+        while ((this.IsPeubahNol(i)) && (i>1) && AdaSolusi){
+            if (this.Elmt(i, this.GetLastIdxKol())!=0){
+                AdaSolusi = false;
             }
             else{
-                return 2;
+                i--;
+                cnt++;
             }
+        }
+
+        if (!AdaSolusi || (this.IsPeubahNol(i) && (Elmt(i, this.GetLastIdxKol())!=0)) ){    // Tidak ada solusi ketika Peubah 0 semua, tp ada nilai
+            return -1;
+        }
+        else if ((this.NPers-cnt)>=this.NPeubah) {     // i(brs yg ada 1) == Peubah (kol) -> solusi unik 
+            return 1;
+        }
+        else{
+            return 2;
         }
     }
 
@@ -199,9 +198,16 @@ public class Spl extends Matriks{
     {
         boolean[] SudahBrs = new boolean[this.NBrsEff+1];
         boolean[] SudahPeubah = new boolean[this.NPeubah+1];
+        boolean[] AdaPeubah = new boolean[this.NPeubah+1];
         this.Solusi1 = new String[(this.NPeubah+1)];
 
         for (int i=1; i<=this.NBrsEff; i++){
+            for (int j=1; j<=this.NPeubah; j++){
+                if (this.Elmt(i, j)!=0){
+                    AdaPeubah[j] = true;
+                }
+            }
+
             int pos = IsOnlyOne(i);
             if (pos!=0){
                 SudahBrs[i] = true;
@@ -209,9 +215,18 @@ public class Spl extends Matriks{
                 this.Solusi1[pos] = Double.toString(this.Elmt(i, this.NKolEff));
             }
         }
+        
+        int cnt=1; //untuk indeks variabel peubah
+        for (int i=1; i<=this.NPeubah; i++){
+             if (!AdaPeubah[i]){
+                SudahPeubah[i] = true;
+                this.Solusi1[i] = "r"+Integer.toString(cnt++);
+             }
+        }
+
         for (int i=1; i<=this.NPeubah; i++){
             if (!SudahPeubah[i]){
-                this.Solusi1[i] = "xxx";
+                this.Solusi1[i] = "r"+Integer.toString(cnt++);
             }
         }
     }
