@@ -55,7 +55,7 @@ public class Spl extends Matriks{
             SPLGauss(2);
         }
         else if (MetodePenyelesaian==3){     //Dengan Matriks Balikan
-            if (this.NBrsEff==(this.NKolEff-1)){
+            if (this.NBrsEff==(this.NKolEff-1)){    // cek apakah square
                 this.NKolEff--;
                 double det = this.Determinan();
                 this.NKolEff++;
@@ -115,7 +115,7 @@ public class Spl extends Matriks{
         if (this.JenisSolusi==1){
             this.Solusi = new double[(this.NPeubah+1)];
             if (x==1){
-                for (int i=this.GetLastIdxBrs();i>=1;--i){
+                for (int i=this.NPeubah;i>=1;--i){
                     this.Solusi[i] = Elmt(i,this.GetLastIdxKol());
                     for (int j = this.NPeubah; j>i; --j){
                         if (Elmt(i,j)!=0){
@@ -127,9 +127,6 @@ public class Spl extends Matriks{
             else if (x == 2){
                 this.Solusi = this.SolusiSPLGaussJordan();
             }
-        }
-        else if (this.JenisSolusi==2){
-            this.Parametrik();
         }
     }
 
@@ -172,61 +169,97 @@ public class Spl extends Matriks{
         }
     }
 
-    int IsOnlyOne(int i){
-        int j=1,pos=0;
-        while ((this.Elmt(i, j)==0) && (j<this.NPeubah)){
-            j++;
-        }
-        if (this.Elmt(i,j)!=0){
-            pos = j++;
-            boolean AdaLain = false;
-            while ((!AdaLain) && (j<=this.NPeubah)){
-                if (this.Elmt(i, j) != 0){
-                    AdaLain = true;
-                    pos=0;
-                }
-                else{
-                    j++;
-                }
-            }
-        }
-        return pos;
-    }
-
     public void Parametrik()
     /*  Menentukan fungsi parametrik*/
     {
-        boolean[] SudahBrs = new boolean[this.NBrsEff+1];
-        boolean[] SudahPeubah = new boolean[this.NPeubah+1];
-        boolean[] AdaPeubah = new boolean[this.NPeubah+1];
-        this.Solusi1 = new String[(this.NPeubah+1)];
+        this.Solusi1 = new String[this.NPeubah+1];
+        this.Solusi = new double[this.NPeubah+1];
+        int[] SudahPeubah = new int[this.NPeubah+1];
+        Matriks mat = new Matriks();
+        mat.MakeMatriks(this.NBrsEff, this.NKolEff);
+        mat.CopyTab(this.M, mat.M, this.NBrsEff, this.NKolEff);
+        /* mengkategorikan peubah ke i sebagai:
+        0-> murni variabel parametrik
+        1-> eksak
+        2-> campuran*/
 
-        for (int i=1; i<=this.NBrsEff; i++){
-            for (int j=1; j<=this.NPeubah; j++){
-                if (this.Elmt(i, j)!=0){
-                    AdaPeubah[j] = true;
+        for (int i=mat.GetLastIdxBrs(); i>=1; i--){ //iterasi dari baris terakhir
+            int j=1;
+            while ((mat.Elmt(i, j)==0) && (j<this.NPeubah)){ //mencari elemen bukan 0 pertama (first one)
+                j++;
+            }
+
+            if (this.Elmt(i, j)!=0){ //proses kalau bukan 0 (first one)
+                boolean AdaParametrik = false;
+                this.Solusi1[j] = "";
+
+                for (int k=j+1; k<=this.NPeubah; k++){ //mencari elemen bukan 0 stlhnya
+                    if (mat.Elmt(i, k)!=0){
+                        if (SudahPeubah[k]==0){ // berarti peubah ke-k merupakan parametrik
+                            if ((mat.Elmt(i,k)<0) && AdaParametrik){
+                                this.Solusi1[j] += " + ";
+                            }
+                            else if (mat.Elmt(i,k)>0){
+                                if (AdaParametrik){
+                                    this.Solusi1[j] += " - ";
+                                }
+                                else{
+                                    this.Solusi1[j] += "-";
+                                }
+                            }
+                            if (Math.abs(mat.Elmt(i, k))!=1.0){
+                                this.Solusi1[j] += Double.toString(Math.abs(mat.Elmt(i, k)));
+                            }
+                            this.Solusi1[j] += "r" + k;
+                            AdaParametrik = true;
+                        }
+                        // peubah merupakan eksak
+                        else if (SudahPeubah[k]==1){
+                            double res=mat.Elmt(i, mat.GetLastIdxKol())-(mat.Elmt(i, k)*this.Solusi[k]);
+                            mat.SetElmt(i, mat.GetLastIdxKol(), res); // mengurangi kolom hasil
+                            mat.SetElmt(i, k, 0);   //set elemen menjadi 0
+                        }
+
+                        else if (SudahPeubah[k]==2){ // bisa substitusi
+                            for (int l=k+1; l<=mat.GetLastIdxKol(); l++){
+                                double res= mat.Elmt(i,l) - (mat.Elmt(i,k)*mat.Elmt((int) this.Solusi[k],l));
+                                mat.SetElmt(i, l, val);
+                            }
+                            mat.SetElmt(i,k,0);
+                        }
+                    }
                 }
-            }
 
-            int pos = IsOnlyOne(i);
-            if (pos!=0){
-                SudahBrs[i] = true;
-                SudahPeubah[pos]=true;
-                this.Solusi1[pos] = Double.toString(this.Elmt(i, this.NKolEff));
+                if (!AdaParametrik){
+                    this.Solusi[j] = mat.Elmt(i,j);
+                    SudahPeubah[j] = 1; 
+                }
+                else{
+                    SudahPeubah[j] = 2;
+                    this.Solusi[j] = i; //menyimpan baris ke berapa ia ditentukan
+                }
+
+                if (mat.Elmt(i, mat.GetLastIdxKol())>0){
+                    if (AdaParametrik){
+                        this.Solusi1[j] += " + ";
+                    }
+                }
+                else if (mat.Elmt(i, mat.GetLastIdxKol())<0){
+                    if (AdaParametrik){
+                        this.Solusi1[j] += " - ";
+                    }
+                    else{
+                        this.Solusi1[j] += "-";
+                    }
+                }
+                this.Solusi1[j] += Double.toString( Math.abs(mat.Elmt(i,mat.GetLastIdxKol())) );
             }
         }
-        
-        int cnt=1; //untuk indeks variabel peubah
-        for (int i=1; i<=this.NPeubah; i++){
-             if (!AdaPeubah[i]){
-                SudahPeubah[i] = true;
-                this.Solusi1[i] = "r"+Integer.toString(cnt++);
-             }
-        }
 
+        /* untuk peubah yang murni parametrik */
         for (int i=1; i<=this.NPeubah; i++){
-            if (!SudahPeubah[i]){
-                this.Solusi1[i] = "r"+Integer.toString(cnt++);
+            if (SudahPeubah[i]==0){
+                this.Solusi1[i] = "r"+Integer.toString(i); 
             }
         }
     }
@@ -235,7 +268,7 @@ public class Spl extends Matriks{
     /* Mengambil elemen setelah menggunakan gaussjordan */
     {
         double[] res = new double[(this.NPeubah+1)];
-        for (int i=1;i<=this.GetLastIdxBrs();++i){
+        for (int i=1;i<=this.NPeubah;++i){
             res[i] = this.Elmt(i, this.GetLastIdxKol());
         }
         return res;
