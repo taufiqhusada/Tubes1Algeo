@@ -3,8 +3,8 @@ import java.util.Scanner;
 import java.lang.Math; 
 
 public class Matriks{
-	int NBrsEff;		
-	int NKolEff;
+	public int NBrsEff;		
+	public int NKolEff;
 	public double [][] M;
 
 	public Scanner input = new Scanner(System.in);
@@ -239,7 +239,7 @@ public class Matriks{
 		}
 
 		newMat.GaussJordan();
-
+		newMat.OutputMatriks();
 		Matriks retMatriks = new Matriks();
 		retMatriks.MakeMatriks(NBrsEff,NKolEff);
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
