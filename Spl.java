@@ -175,14 +175,17 @@ public class Spl extends Matriks{
         this.Solusi1 = new String[this.NPeubah+1];
         this.Solusi = new double[this.NPeubah+1];
         int[] SudahPeubah = new int[this.NPeubah+1];
-        Matriks mat = new Matriks();
-        mat.MakeMatriks(this.NBrsEff, this.NKolEff);
-        mat.CopyTab(this.M, mat.M, this.NBrsEff, this.NKolEff);
         /* mengkategorikan peubah ke i sebagai:
         0-> murni variabel parametrik
         1-> eksak
         2-> campuran*/
 
+        Matriks mat = new Matriks();
+        mat.MakeMatriks(this.NBrsEff, this.NKolEff);
+        mat.CopyTab(this.M, mat.M, this.NBrsEff, this.NKolEff);
+        
+        int[] IdxParametrik = new int[this.NPeubah+1];
+        int cnt=1;
         for (int i=mat.GetLastIdxBrs(); i>=1; i--){ //iterasi dari baris terakhir
             int j=1;
             while ((mat.Elmt(i, j)==0) && (j<this.NPeubah)){ //mencari elemen bukan 0 pertama (first one)
@@ -210,7 +213,9 @@ public class Spl extends Matriks{
                             if (Math.abs(mat.Elmt(i, k))!=1.0){
                                 this.Solusi1[j] += Double.toString(Math.abs(mat.Elmt(i, k)));
                             }
-                            this.Solusi1[j] += "r" + k;
+                            this.Solusi1[j] += "r" + cnt;
+                            IdxParametrik[k] = cnt;
+                            cnt++;
                             AdaParametrik = true;
                         }
                         // peubah merupakan eksak
@@ -223,7 +228,7 @@ public class Spl extends Matriks{
                         else if (SudahPeubah[k]==2){ // bisa substitusi
                             for (int l=k+1; l<=mat.GetLastIdxKol(); l++){
                                 double res= mat.Elmt(i,l) - (mat.Elmt(i,k)*mat.Elmt((int) this.Solusi[k],l));
-                                mat.SetElmt(i, l, val);
+                                mat.SetElmt(i, l, res);
                             }
                             mat.SetElmt(i,k,0);
                         }
@@ -259,7 +264,12 @@ public class Spl extends Matriks{
         /* untuk peubah yang murni parametrik */
         for (int i=1; i<=this.NPeubah; i++){
             if (SudahPeubah[i]==0){
-                this.Solusi1[i] = "r"+Integer.toString(i); 
+                if (IdxParametrik[i]!=0){
+                    this.Solusi1[i] = "r"+Integer.toString(i);
+                }
+                else{
+                    this.Solusi1[i] = "r"+Integer.toString(cnt++);
+                }
             }
         }
     }
