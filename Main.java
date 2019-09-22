@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.io.*;
 
 
 public class Main{
@@ -25,7 +26,20 @@ public class Main{
 		System.out.println("3. Metode Matriks Balikan");
 		System.out.println("4. Kaidah Cramer");
 	}
-	public static void main(String[] args){
+
+	public static void metodeOutput(){
+		System.out.println("Apakah ingin di save ke file?");
+		System.out.println("1. iya");
+		System.out.println("2. tidak");
+	}
+
+	public static void metodeInput(){
+		System.out.println("Metode input apa yang ingin digunakan?");
+		System.out.println("1. input dari terminal");
+		System.out.println("2. input dari file .txt");
+	}
+
+	public static void main(String[] args) throws FileNotFoundException, IOException {
 		int pil;
 		do{
 			menu();
@@ -56,7 +70,16 @@ public class Main{
 			// determinan
 			else if (pil==2){
 				Matriks mat = new Matriks();
-				mat.BacaMatriks();
+
+				metodeInput();
+				int metInput = input.nextInt();
+				if (metInput==1) mat.BacaMatriks();
+				else{
+					System.out.print("Masukkan nama file: ");
+					String inFile = input.nextLine();
+					mat.BacaFileMatriks(inFile);
+				}
+
 				int met = valUndef;
 				if (mat.IsSquare()){
 					do{
@@ -65,6 +88,7 @@ public class Main{
 						if (met==1){
 							System.out.print("determinan matriks tsb adalah: ");
 							System.out.println(mat.Determinan());
+							
 						}
 						else if (met==2){
 							System.out.print("determinan matriks tsb adalah: ");
@@ -83,7 +107,16 @@ public class Main{
 			// inverse
 			else if (pil==3){
 				Matriks mat = new Matriks();
-				mat.BacaMatriks();
+
+				metodeInput();
+				int metInput = input.nextInt();
+				if (metInput==1) mat.BacaMatriks();
+				else{
+					System.out.print("Masukkan nama file: ");
+					String inFile = input.nextLine();
+					mat.BacaFileMatriks(inFile);
+				}
+
 				if (mat.IsSquare() && mat.Determinan()!=0){
 					int met = valUndef;
 					do{
@@ -113,7 +146,16 @@ public class Main{
 			// kofaktor
 			else if (pil==4){
 				Matriks mat = new Matriks();
-				mat.BacaMatriks();
+				
+				metodeInput();
+				int metInput = input.nextInt();
+				if (metInput==1) mat.BacaMatriks();
+				else{
+					System.out.print("Masukkan nama file: ");
+					String inFile = input.nextLine();
+					mat.BacaFileMatriks(inFile);
+				}
+
 				if (mat.IsSquare()){
 					Matriks matCof = mat.MatriksCofactor();
 					System.out.println("Berikut adalah matriks kofaktornya: ");
@@ -127,7 +169,16 @@ public class Main{
 			// adjoin
 			else if (pil==5){
 				Matriks mat = new Matriks();
-				mat.BacaMatriks();
+
+				metodeInput();
+				int metInput = input.nextInt();
+				if (metInput==1) mat.BacaMatriks();
+				else{
+					System.out.print("Masukkan nama file: ");
+					String inFile = input.nextLine();
+					mat.BacaFileMatriks(inFile);
+				}
+
 				if (mat.IsSquare()){
 					Matriks matAdj = mat.MatriksAdjoin();
 					System.out.println("Berikut adalah matriks adjoinnya: ");

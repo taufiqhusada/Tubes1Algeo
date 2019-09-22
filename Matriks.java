@@ -377,7 +377,18 @@ public class Matriks{
 		MakeMatriks(row,col,inputArray);
 	}
 
-	public void TulisFileMatriks(String namaFile){
-
+	public void TulisFileMatriks(String namaFile) throws IOException{
+		File fout = new File(namaFile);
+		FileOutputStream fos = new FileOutputStream(fout);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		int i,j;
+		for (i = 1; i<=GetLastIdxBrs(); ++i){
+			for (j = 1; j<=GetLastIdxKol(); ++j){
+				bw.write(Double.toString(Elmt(i,j)));
+				bw.write(" ");
+			}
+			bw.newLine();
+		}
+		bw.close();
 	}
 }
