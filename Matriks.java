@@ -178,7 +178,7 @@ public class Matriks{
 
 	public double DeterminanOBE(){
 		// prosedur untuk mencari determinan matrix dengan metode Operasi Baris Elmenter (OBE)
-		double res = 0.0;
+		double res = 1;
 		int rowNow = 1;
 		for (int j = 1; j<=GetLastIdxKol(); ++j){
 			if (rowNow>=GetLastIdxBrs()+1) break;
@@ -199,18 +199,14 @@ public class Matriks{
 				rowNow++;
 			}
 		}
+		res = 1.0;
+		this.OutputMatriks();
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
 			double temp = Elmt(i,i);
 			if (temp==0){
 				return 0;
 			}
 			res*=temp;
-			if (temp!=0){
-				for (int j = i; j<=GetLastIdxKol(); ++j ){
-					SetElmt(i,j, Elmt(i,j)/temp);
-					
-				}	
-			}	
 		}
 		return res;
 	}

@@ -40,9 +40,7 @@ public class Main{
 	}
 
 	public static void outputToFile(double x) throws IOException{
-		System.out.println("masukkan nama file: ");
-		String namaFile = input.nextLine();
-		File fout = new File(namaFile);
+		File fout = new File("hasil.txt");
 		FileOutputStream fos = new FileOutputStream(fout);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 		bw.write(Double.toString(x));
@@ -85,11 +83,8 @@ public class Main{
 				int metInput = input.nextInt();
 				if (metInput==1) mat.BacaMatriks();
 				else{
-					System.out.print("Masukkan nama file: ");
-					String inFile = input.nextLine();
-					mat.BacaFileMatriks(inFile);
+					mat.BacaFileMatriks("Matriks.txt");
 				}
-
 				int met = valUndef;
 				if (mat.IsSquare()){
 					do{
@@ -133,9 +128,7 @@ public class Main{
 				int metInput = input.nextInt();
 				if (metInput==1) mat.BacaMatriks();
 				else{
-					System.out.print("Masukkan nama file: ");
-					String inFile = input.nextLine();
-					mat.BacaFileMatriks(inFile);
+					mat.BacaFileMatriks("matriks.txt");
 				}
 
 				if (mat.IsSquare() && mat.Determinan()!=0){
@@ -152,13 +145,20 @@ public class Main{
 							if (metOutput==1){
 								System.out.println("masukkan nama file: ");
 								String namaFile = input.nextLine();
-								matInv.TulisFileMatriks(namaFile);
+								matInv.TulisFileMatriks("hasil.txt");
 							}
 							matInv.OutputMatriks();
 						}
 						else if (met==2){
 							Matriks matInv = mat.MatriksInverseOBE();
 							System.out.println("matriks inversenya sebagai berikut");
+							metodeOutput();
+							int metOutput = input.nextInt();
+							if (metOutput==1){
+								System.out.println("masukkan nama file: ");
+								String namaFile = input.nextLine();
+								matInv.TulisFileMatriks("hasil.txt");
+							}
 							matInv.OutputMatriks();
 						}
 						else{
@@ -179,14 +179,19 @@ public class Main{
 				int metInput = input.nextInt();
 				if (metInput==1) mat.BacaMatriks();
 				else{
-					System.out.print("Masukkan nama file: ");
-					String inFile = input.nextLine();
-					mat.BacaFileMatriks(inFile);
+					mat.BacaFileMatriks("matriks.txt");
 				}
 
 				if (mat.IsSquare()){
 					Matriks matCof = mat.MatriksCofactor();
 					System.out.println("Berikut adalah matriks kofaktornya: ");
+					metodeOutput();
+					int metOutput = input.nextInt();
+					if (metOutput==1){
+						System.out.println("masukkan nama file: ");
+						String namaFile = input.nextLine();
+						matCof.TulisFileMatriks("hasil.txt");
+					}
 					matCof.OutputMatriks();
 				}
 				else{
@@ -202,14 +207,19 @@ public class Main{
 				int metInput = input.nextInt();
 				if (metInput==1) mat.BacaMatriks();
 				else{
-					System.out.print("Masukkan nama file: ");
-					String inFile = input.nextLine();
-					mat.BacaFileMatriks(inFile);
+					mat.BacaFileMatriks("matriks.txt");
 				}
 
 				if (mat.IsSquare()){
 					Matriks matAdj = mat.MatriksAdjoin();
 					System.out.println("Berikut adalah matriks adjoinnya: ");
+					metodeOutput();
+					int metOutput = input.nextInt();
+					if (metOutput==1){
+						System.out.println("masukkan nama file: ");
+						String namaFile = input.nextLine();
+						matAdj.TulisFileMatriks("hasil.txt");
+					}
 					matAdj.OutputMatriks();
 				}
 				else{
