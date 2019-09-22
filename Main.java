@@ -130,12 +130,17 @@ public class Main{
 				else{
 					mat.BacaFileMatriks("matriks.txt");
 				}
-
-				if (mat.IsSquare() && mat.Determinan()!=0){
+				Matriks testMat = new Matriks();
+				testMat.MakeMatriks(mat.GetLastIdxBrs(), mat.GetLastIdxKol());
+				for (int i = 1; i<=mat.GetLastIdxBrs(); ++i){
+					for (int j = 1; j<=mat.GetLastIdxKol(); ++j){
+						testMat.M[i][j] = mat.M[i][j];
+					}
+				}
+				if (mat.IsSquare() && testMat.DeterminanOBE()!=0){
 					int met = valUndef;
 					do{
 						System.out.print("Pilihan metode (1. Metode adjoin, 2. Metode eliminasi Gauss): ");
-						
 						met = input.nextInt();	
 						if (met==1){
 							Matriks matInv = mat.MatriksInverse();
@@ -143,8 +148,6 @@ public class Main{
 							metodeOutput();
 							int metOutput = input.nextInt();
 							if (metOutput==1){
-								System.out.println("masukkan nama file: ");
-								String namaFile = input.nextLine();
 								matInv.TulisFileMatriks("hasil.txt");
 							}
 							matInv.OutputMatriks();
@@ -155,8 +158,6 @@ public class Main{
 							metodeOutput();
 							int metOutput = input.nextInt();
 							if (metOutput==1){
-								System.out.println("masukkan nama file: ");
-								String namaFile = input.nextLine();
 								matInv.TulisFileMatriks("hasil.txt");
 							}
 							matInv.OutputMatriks();
@@ -188,8 +189,6 @@ public class Main{
 					metodeOutput();
 					int metOutput = input.nextInt();
 					if (metOutput==1){
-						System.out.println("masukkan nama file: ");
-						String namaFile = input.nextLine();
 						matCof.TulisFileMatriks("hasil.txt");
 					}
 					matCof.OutputMatriks();
@@ -216,8 +215,6 @@ public class Main{
 					metodeOutput();
 					int metOutput = input.nextInt();
 					if (metOutput==1){
-						System.out.println("masukkan nama file: ");
-						String namaFile = input.nextLine();
 						matAdj.TulisFileMatriks("hasil.txt");
 					}
 					matAdj.OutputMatriks();

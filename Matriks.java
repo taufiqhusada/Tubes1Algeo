@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.lang.Math; 
 
@@ -10,15 +11,15 @@ public class Matriks{
 	public Scanner input = new Scanner(System.in);
 
 	public void MakeMatriks(int NB, int NK){
-		M = new double [NB+1][NK+1];
-		NBrsEff = NB;
-		NKolEff = NK;
+		this.M = new double [NB+1][NK+1];
+		this.NBrsEff = NB;
+		this.NKolEff = NK;
 	}
 
 	public void MakeMatriks(int NB, int NK, double[][] tab){
-		M = tab;
-		NBrsEff = NB;
-		NKolEff = NK;
+		this.M = tab;
+		this.NBrsEff = NB;
+		this.NKolEff = NK;
 	}
 
 	public double Elmt(int i, int j){
@@ -178,28 +179,28 @@ public class Matriks{
 
 	public double DeterminanOBE(){
 		// prosedur untuk mencari determinan matrix dengan metode Operasi Baris Elmenter (OBE)
+		Matriks newMat = new Matriks();
+		newMat.MakeMatriks(this.GetLastIdxBrs(), this.GetLastIdxKol(), this.M);
 		double res = 1;
 		int rowNow = 1;
 		for (int j = 1; j<=GetLastIdxKol(); ++j){
 			if (rowNow>=GetLastIdxBrs()+1) break;
 			int posNonZero=0;
 			for (int i = rowNow; i<=GetLastIdxBrs(); ++i){
-				if (Elmt(i,j)!=0){
+				if (newMat.Elmt(i,j)!=0){
 					posNonZero = i;
 					break;
 				}
 			}
 			if (posNonZero!=0){
-				TukarBaris(rowNow,posNonZero);	
-				res*=(-1);
+				newMat.TukarBaris(rowNow,posNonZero);	
 				
 				for (int k = rowNow+1; k<=GetLastIdxBrs(); ++k){
-					AddBaris(k,rowNow,-Elmt(k,j)/Elmt(rowNow,j));
+					newMat.AddBaris(k,rowNow,-Elmt(k,j)/Elmt(rowNow,j));
 				}
 				rowNow++;
 			}
 		}
-		res = 1.0;
 		this.OutputMatriks();
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
 			double temp = Elmt(i,i);
@@ -378,9 +379,12 @@ public class Matriks{
 		FileOutputStream fos = new FileOutputStream(fout);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 		int i,j;
+		DecimalFormat df = new DecimalFormat("##.00");
+   		
 		for (i = 1; i<=GetLastIdxBrs(); ++i){
 			for (j = 1; j<=GetLastIdxKol(); ++j){
-				bw.write(Double.toString(Elmt(i,j)));
+				String dFormated = df.format(Elmt(i,j));
+				bw.write(dFormated);
 				bw.write(" ");
 			}
 			bw.newLine();
