@@ -3,8 +3,8 @@ import java.util.Scanner;
 import java.lang.Math; 
 
 public class Matriks{
-	int NBrsEff;		
-	int NKolEff;
+	public int NBrsEff;		
+	public int NKolEff;
 	public double [][] M;
 
 	public Scanner input = new Scanner(System.in);
@@ -178,7 +178,7 @@ public class Matriks{
 
 	public double DeterminanOBE(){
 		// prosedur untuk mencari determinan matrix dengan metode Operasi Baris Elmenter (OBE)
-		double res = 0.0;
+		double res = 1;
 		int rowNow = 1;
 		for (int j = 1; j<=GetLastIdxKol(); ++j){
 			if (rowNow>=GetLastIdxBrs()+1) break;
@@ -199,18 +199,14 @@ public class Matriks{
 				rowNow++;
 			}
 		}
+		res = 1.0;
+		this.OutputMatriks();
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
 			double temp = Elmt(i,i);
 			if (temp==0){
 				return 0;
 			}
 			res*=temp;
-			if (temp!=0){
-				for (int j = i; j<=GetLastIdxKol(); ++j ){
-					SetElmt(i,j, Elmt(i,j)/temp);
-					
-				}	
-			}	
 		}
 		return res;
 	}
@@ -239,7 +235,7 @@ public class Matriks{
 		}
 
 		newMat.GaussJordan();
-
+		newMat.OutputMatriks();
 		Matriks retMatriks = new Matriks();
 		retMatriks.MakeMatriks(NBrsEff,NKolEff);
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
@@ -377,7 +373,18 @@ public class Matriks{
 		MakeMatriks(row,col,inputArray);
 	}
 
-	public void TulisFileMatriks(String namaFile){
-
+	public void TulisFileMatriks(String namaFile) throws IOException{
+		File fout = new File(namaFile);
+		FileOutputStream fos = new FileOutputStream(fout);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		int i,j;
+		for (i = 1; i<=GetLastIdxBrs(); ++i){
+			for (j = 1; j<=GetLastIdxKol(); ++j){
+				bw.write(Double.toString(Elmt(i,j)));
+				bw.write(" ");
+			}
+			bw.newLine();
+		}
+		bw.close();
 	}
 }
