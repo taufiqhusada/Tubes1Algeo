@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.*;
 
 public class Spl extends Matriks{
     /*Array 2 dimensi pada Matriks digunakan untuk menyimpan nilai koefisien*/
@@ -8,6 +9,12 @@ public class Spl extends Matriks{
     public String[] Solusi1;
     public int NPers,NPeubah;
     public int JenisSolusi;
+
+    /***********   Konstruktor    ***********/
+    public void MakeSPL(int NPers,int NPeubah){
+        this.NPers = NPers;
+        this.NPeubah = NPeubah;
+    }
 
     /***********   Input    ***********/
     public void BacaSPL(){
@@ -20,6 +27,25 @@ public class Spl extends Matriks{
         this.MakeMatriks(NPers, (NPeubah+1));
         this.BacaElemenMatriks(NPers,(NPeubah+1));
     }
+
+    public void BacaFileSPL(String namaFile) throws FileNotFoundException{
+		Scanner input = new Scanner(new FileReader(namaFile));
+		double [][] inputArray = new double[100][100];
+		int i = 1, row=0, col = 0;
+		while(input.hasNextLine()){
+			String[] line = input.nextLine().trim().split(" ");
+
+			for (int j = 0; j<line.length; j++){
+				inputArray[i][j+1] = Double.parseDouble(line[j]);
+				if (i==1)col++;
+			}
+			i++;
+			row++;
+		}
+		input.close();
+        MakeMatriks(row,col,inputArray);
+        MakeSPL(row, (col-1));
+	}
 
     /***********   Output    ***********/
     public void OutputSPL(){
