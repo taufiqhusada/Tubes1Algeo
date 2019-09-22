@@ -39,6 +39,16 @@ public class Main{
 		System.out.println("2. input dari file .txt");
 	}
 
+	public static void outputToFile(double x) throws IOException{
+		System.out.println("masukkan nama file: ");
+		String namaFile = input.nextLine();
+		File fout = new File(namaFile);
+		FileOutputStream fos = new FileOutputStream(fout);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		bw.write(Double.toString(x));
+		bw.close();
+	}
+
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		int pil;
 		do{
@@ -87,12 +97,23 @@ public class Main{
 						met = input.nextInt();	
 						if (met==1){
 							System.out.print("determinan matriks tsb adalah: ");
-							System.out.println(mat.Determinan());
-							
+							metodeOutput();
+							int metOutput = input.nextInt();
+							double hasil = mat.Determinan();
+							if(metOutput==1){
+								outputToFile(hasil);
+							}
+							System.out.println(hasil);
 						}
 						else if (met==2){
 							System.out.print("determinan matriks tsb adalah: ");
-							System.out.println(mat.DeterminanOBE());
+							metodeOutput();
+							int metOutput = input.nextInt();
+							double hasil = mat.DeterminanOBE();
+							if(metOutput==1){
+								outputToFile(hasil);
+							}
+							System.out.println(hasil);
 						}
 						else{
 							System.out.println("Masukan salah, ulangi masukan");
@@ -126,6 +147,13 @@ public class Main{
 						if (met==1){
 							Matriks matInv = mat.MatriksInverse();
 							System.out.println("matriks inversenya sebagai berikut");
+							metodeOutput();
+							int metOutput = input.nextInt();
+							if (metOutput==1){
+								System.out.println("masukkan nama file: ");
+								String namaFile = input.nextLine();
+								matInv.TulisFileMatriks(namaFile);
+							}
 							matInv.OutputMatriks();
 						}
 						else if (met==2){
