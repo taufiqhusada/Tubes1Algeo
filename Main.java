@@ -65,9 +65,7 @@ public class Main{
 						spl.BacaSPL();
 					}
 					else if (metInput==2){
-						System.out.print("Masukkan nama file: ");
-						String namaFile = input.next();
-						spl.BacaFileSPL(namaFile);
+						spl.BacaFileSPL("SPL.txt");
 					}
 				}while (!((metInput>0) && (metInput<=2)));
 				
@@ -86,10 +84,10 @@ public class Main{
 					met = input.nextInt();
 				}while ((met!=1) && (met!=2));
 				System.out.println();
-				if (met==1) spl.TulisFileSPL("hasil.txt");
 				spl.OutputSPL();
 				spl.OutputMatriks();
 				System.out.println();
+				if (met==1) spl.TulisFileSPL("hasil.txt");
 			}
 
 			// determinan
