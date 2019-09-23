@@ -5,7 +5,6 @@ import java.io.*;
 
 public class Main{
 	static Scanner input = new Scanner(System.in);
-	public static int valUndef = 9999;
 
 	public static void menu(){
 		System.out.println("Selamat datang di operasi-operasi matriks");
@@ -86,7 +85,6 @@ public class Main{
 				System.out.println();
 				spl.OutputSPL();
 				spl.OutputMatriks();
-				System.out.println();
 				if (met==1) spl.TulisFileSPL("hasil.txt");
 			}
 
@@ -100,29 +98,22 @@ public class Main{
 				else{
 					mat.BacaFileMatriks("Matriks.txt");
 				}
-				int met = valUndef;
+				int met;
 				if (mat.IsSquare()){
 					do{
 						System.out.print("Pilihan metode (1. Metode kofaktor, 2. Metode eliminasi Gauss): ");
 						met = input.nextInt();	
-						if (met==1){
-							System.out.print("determinan matriks tsb adalah: ");
+						if ((met==1) || (met==2)){
+							double hasil;
+							if (met==1) hasil = mat.Determinan();
+							else hasil = mat.DeterminanOBE();
+							
 							metodeOutput();
 							int metOutput = input.nextInt();
-							double hasil = mat.Determinan();
 							if(metOutput==1){
 								outputToFile(hasil);
 							}
-							System.out.println(hasil);
-						}
-						else if (met==2){
-							System.out.print("determinan matriks tsb adalah: ");
-							metodeOutput();
-							int metOutput = input.nextInt();
-							double hasil = mat.DeterminanOBE();
-							if(metOutput==1){
-								outputToFile(hasil);
-							}
+							System.out.print("Determinan matriks tersebut adalah: ");
 							System.out.println(hasil);
 						}
 						else{
@@ -153,25 +144,19 @@ public class Main{
 					}
 				}
 				if (mat.IsSquare() && testMat.DeterminanOBE()!=0){
-					int met = valUndef;
+					int met;
 					do{
 						System.out.print("Pilihan metode (1. Metode adjoin, 2. Metode eliminasi Gauss): ");
 						met = input.nextInt();	
-						if (met==1){
-							Matriks matInv = mat.MatriksInverse();
-							System.out.println("matriks inversenya sebagai berikut");
+						if ((met==1) || (met==2)){
 							metodeOutput();
 							int metOutput = input.nextInt();
-							if (metOutput==1){
-								matInv.TulisFileMatriks("hasil.txt");
-							}
-							matInv.OutputMatriks();
-						}
-						else if (met==2){
-							Matriks matInv = mat.MatriksInverseOBE();
+
+							Matriks matInv;
+							if (met==1) matInv = mat.MatriksInverse();
+							else matInv = mat.MatriksInverseOBE();
+
 							System.out.println("matriks inversenya sebagai berikut");
-							metodeOutput();
-							int metOutput = input.nextInt();
 							if (metOutput==1){
 								matInv.TulisFileMatriks("hasil.txt");
 							}
@@ -200,12 +185,12 @@ public class Main{
 
 				if (mat.IsSquare()){
 					Matriks matCof = mat.MatriksCofactor();
-					System.out.println("Berikut adalah matriks kofaktornya: ");
 					metodeOutput();
 					int metOutput = input.nextInt();
 					if (metOutput==1){
 						matCof.TulisFileMatriks("hasil.txt");
 					}
+					System.out.println("Berikut adalah matriks kofaktornya: ");
 					matCof.OutputMatriks();
 				}
 				else{
@@ -226,19 +211,21 @@ public class Main{
 
 				if (mat.IsSquare()){
 					Matriks matAdj = mat.MatriksAdjoin();
-					System.out.println("Berikut adalah matriks adjoinnya: ");
+					
 					metodeOutput();
 					int metOutput = input.nextInt();
 					if (metOutput==1){
 						matAdj.TulisFileMatriks("hasil.txt");
 					}
+					System.out.println("Berikut adalah matriks adjoinnya: ");
 					matAdj.OutputMatriks();
 				}
 				else{
-					System.out.println("Matriks ini bukan matriks persegi, sehingga tidak punya matriks kofaktor");	
+					System.out.println("Matriks ini bukan matriks persegi, sehingga tidak punya matriks adjoin");	
 				}
 			}
 
+			if (pil!=7) System.out.println();
 		}while(pil!=7);
 
 		/*Matriks mat = new Matriks();
