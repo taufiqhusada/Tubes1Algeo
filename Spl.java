@@ -25,7 +25,13 @@ public class Spl extends Matriks{
         this.NPeubah = input.nextInt();
 
         this.MakeMatriks(NPers, (NPeubah+1));
-        this.BacaElemenMatriks(NPers,(NPeubah+1));
+        
+        System.out.println("Masukkan koefisien aij: ");
+        this.BacaElemenMatriks(NPers,NPeubah);
+        System.out.println("Masukkan hasil bi: ");
+        for (int i=1;i<=this.NPers;i++){
+            this.SetElmt(i,this.NKolEff,input.nextDouble());
+        }
     }
 
     public void BacaFileSPL(String namaFile) throws FileNotFoundException{
@@ -239,9 +245,14 @@ public class Spl extends Matriks{
                             if (Math.abs(mat.Elmt(i, k))!=1.0){
                                 this.Solusi1[j] += Double.toString(Math.abs(mat.Elmt(i, k)));
                             }
-                            this.Solusi1[j] += "r" + cnt;
-                            IdxParametrik[k] = cnt;
-                            cnt++;
+                            if (IdxParametrik[k]!=0){
+                                this.Solusi1[j] += "r" + IdxParametrik[k];
+                            }
+                            else{
+                                this.Solusi1[j] += "r" + cnt;
+                                IdxParametrik[k] = cnt;
+                                cnt++;
+                            }
                             AdaParametrik = true;
                         }
                         // peubah merupakan eksak
@@ -283,12 +294,14 @@ public class Spl extends Matriks{
                         this.Solusi1[j] += "-";
                     }
                 }
-                this.Solusi1[j] += Double.toString( Math.abs(mat.Elmt(i,mat.GetLastIdxKol())) );
+                if (mat.Elmt(i,mat.GetLastIdxKol()) != 0){ 
+                    this.Solusi1[j] += Double.toString( Math.abs(mat.Elmt(i,mat.GetLastIdxKol())) );
+                }
             }
         }
 
         /* untuk peubah yang murni parametrik */
-        for (int i=1; i<=this.NPeubah; i++){
+        for (int i=this.NPeubah; i>=1; i--){
             if (SudahPeubah[i]==0){
                 if (IdxParametrik[i]!=0){
                     this.Solusi1[i] = "r"+Integer.toString(IdxParametrik[i]);

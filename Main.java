@@ -57,22 +57,29 @@ public class Main{
 			// SPL
 			if (pil==1){
 				Spl spl = new Spl();
-				Spl temp = new Spl();
-				int met = valUndef;
-				spl.BacaSPL();
-				temp.NPers=spl.NPers;
-				temp.NPeubah = spl.NPeubah;
-				temp.MakeMatriks(spl.NBrsEff, spl.NKolEff);
-				do{
+				int met,metInput;
+				do{	// Metode input
+					metodeInput();
+					metInput = input.nextInt();
+					if (metInput==1){
+						spl.BacaSPL();
+					}
+					else if (metInput==2){
+						spl.BacaFileSPL("SPL.txt");
+					}
+				}while (!((metInput>0) && (metInput<=2)));
+				
+				do{ // Metode penyelesaian
 					metode();
 					met = input.nextInt();
-					if (met>0){
-						temp.CopyTab(spl.M, temp.M, spl.NBrsEff, spl.NKolEff);
-						temp.PenyelesaianSPL(met);
-						temp.OutputSPL();
-						temp.OutputMatriks();
+					if ((met>0) && (met<=4)){
+						System.out.println();
+						spl.PenyelesaianSPL(met);
+						spl.OutputSPL();
+						spl.OutputMatriks();
 					}
-				}while (!(met>0));
+				}while (!((met>0) && (met<=4)));
+				System.out.println();
 			}
 
 			// determinan
