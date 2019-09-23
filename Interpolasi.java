@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class Interpolasi{
     static Scanner input = new Scanner(System.in);
     public double[][] arrPers;
-    public double[] resInterpolasi
+   
+   
     public void InInterpolasi() {
         int  NbPers;
         
@@ -37,19 +38,29 @@ public class Interpolasi{
     }
 
     public void HasilInterpolasi(){
-        double result;
+        double result, temp;
+        Spl spl = new Spl();
         result=0;
         
         for(int i=1; i<=NbPers+1; i++){
-            for(int j=1; j<=i-1; i++)
-            result += resInterpolasi[i]*;  
+            temp = spl.solusi[i];
+            if(i>1){
+                for(int j=1; j<=i-1; i++){
+                    temp *= x;  
+                }
+            }
+            result+=temp;
         }
+        System.out.print
     }
 
+
+
+
     public void RunInterpolasi(){
+        Spl spl = new Spl();
         InInterpolasi();
         KonversiKeMatriks(arrPers);
-        Parametrik()        
         }
     }
 }
