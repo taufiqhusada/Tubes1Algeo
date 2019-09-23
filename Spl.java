@@ -4,20 +4,27 @@ import java.io.*;
 public class Spl extends Matriks{
     /*Array 2 dimensi pada Matriks digunakan untuk menyimpan nilai koefisien*/
     
-    public Scanner input = new Scanner(System.in);
-    public double[] Solusi;
-    public String[] Solusi1;
-    public int NPers,NPeubah;
-    public int JenisSolusi;
+    public Scanner input = new Scanner(System.in);  // untuk melakukan input
+    public double[] Solusi; // untuk menyimpan solusi SPL yang unik
+    public String[] Solusi1; // untuk menyimpan solusi SPL yang memiliki solusi banyak (solusi parametrik)
+    public int NPers,NPeubah; // untuk menyimpan banyaknya persamaan dan peubah suatu SPL
+    public int JenisSolusi; // untuk menyimpan status solusi : 1 apabila ada solusi (solusi unik), 2 apabila solusi banyak (parametrik), atau
+                            // -1 apabila tidak ada solusi
 
     /***********   Konstruktor    ***********/
     public void MakeSPL(int NPers,int NPeubah){
+    /*  Mengeset atribut NPers dan NPeubah pada SPL
+    */
         this.NPers = NPers;
         this.NPeubah = NPeubah;
     }
 
     /***********   Input    ***********/
     public void BacaSPL(){
+    /*  Membaca SPL dari input user
+        I.S. : Objek SPL terdefinisi
+        F.S. : Atribut primer SPL terinisialisasi
+    */
         System.out.println("Membaca SPL");
         System.out.print("Masukkan banyak persamaan: ");
         this.NPers = input.nextInt();
@@ -35,6 +42,10 @@ public class Spl extends Matriks{
     }
 
     public void BacaFileSPL(String namaFile) throws FileNotFoundException{
+    /*  Membaca SPL yang berbentuk augmented array pada file namaFile
+        I.S. : Objek SPL terdefinisi
+        F.S. : Atribut primer SPL terinisialisasi
+    */
 		Scanner input = new Scanner(new FileReader(namaFile));
 		double [][] inputArray = new double[100][100];
 		int i = 1, row=0, col = 0;
@@ -54,7 +65,12 @@ public class Spl extends Matriks{
 	}
 
     /***********   Output    ***********/
-    public void OutputSPL(){
+    public void OutputSPL()
+    /*  Mencetak solusi SPL ke layar
+        I.S. : Telah dilakukan operasi penyelesaian SPL
+        F.S. : Apabila SPL memiliki solusi, program akan mencetak solusi tersebut ke layar
+    */
+    {
         System.out.println("Ini jawaban SPL");
         if (this.JenisSolusi==1){
             System.out.println("Solusi Unik");
@@ -142,7 +158,16 @@ public class Spl extends Matriks{
         }
     }
 
-    public void SPLGauss(int x){
+    public void SPLGauss(int x)
+    /*  Menentukan solusi SPL dengan eliminasi Gauss atau Gauss-Jordan 
+        I.S. : SPL sembarang telah dilakukan eliminasi Gauss atau Gauss-Jordan, x terdefinisi bernilai 1 atau 2
+        F.S. : Atribut JenisSolusi terinisialisasi dengan menggunakan metode fungsi PemilahSolusi.
+               Apabila JenisSolusi bernilai 1, dilakukan inisialisasi array of doble Solusi sesuai dengan nilai x
+               yang menyatakan:
+               1. Apabila x bernilai 1, dilakukan eliminasi peubah terlebih dahulu untuk mendapatkan solusi unik.
+               2. Apabila x bernilai 2, dilakukan inisialisasi langsung dengan metode SolusiSPLGaussJordan untuk mendapatkan solusi unik.
+    */
+    {
         this.JenisSolusi = this.PemilahSolusi();
         if (this.JenisSolusi==1){
             this.Solusi = new double[(this.NPeubah+1)];
@@ -163,7 +188,7 @@ public class Spl extends Matriks{
     }
 
     public boolean IsPeubahNol(int i)
-    /*Mengirimkan true apabila peubah baris i bernilai 0 semua*/
+    /*Mengirimkan true apabila koefisien peubah baris i bernilai 0 semua*/
     {
         int j=1;
         while ((j<this.NPeubah) && (Elmt(i, j)==0)){
@@ -175,7 +200,7 @@ public class Spl extends Matriks{
     public int PemilahSolusi()
     /*Mengembalikan 1 apabila ada solusi (solusi unik), mengembalikan 2 apabila solusi banyak (parametrik),
     mengembalikan -1 apabila tidak ada solusi
-    (setelah dilakukan gauss atau gauss jordan*/    
+    (setelah dilakukan eliminasi Gauss atau Gauss-Jordan*/    
     {
         int i=this.GetLastIdxBrs(),cnt=0; //cnt->banyak baris yang peubah nol semua
         boolean AdaSolusi = true;
@@ -202,7 +227,11 @@ public class Spl extends Matriks{
     }
 
     public void Parametrik()
-    /*  Menentukan fungsi parametrik*/
+    /*  Menentukan solusi SPL yang memiliki banyak solusi (solusi parametrik)
+        I.S. : Telah dilakukan operasi Gauss atau Gauss-Jordan
+        F.S. : Atribut Solusi1 dari SPL yang bertipe string berisi dengan solusi SPL tersebut.
+               Atribut Solusi dari SPL yang bertipe double juga mungkin beberapa terisi untuk peubah yang memiliki nilai unik
+    */
     {
         this.Solusi1 = new String[this.NPeubah+1];
         this.Solusi = new double[this.NPeubah+1];
@@ -314,7 +343,7 @@ public class Spl extends Matriks{
     }
 
     public double[] SolusiSPLGaussJordan()
-    /* Mengambil elemen setelah menggunakan gaussjordan */
+    /* Mengembalikan array of double yang berisikan solusi SPL setelah menggunakan metode Gauss-Jordan */
     {
         double[] res = new double[(this.NPeubah+1)];
         for (int i=1;i<=this.NPeubah;++i){
@@ -323,7 +352,9 @@ public class Spl extends Matriks{
         return res;
     }
 
-    public boolean IsAdaSolusi(){
+    public boolean IsAdaSolusi()
+    /* Mengembalikan true jika SPL tersebut ada memiliki solusi unik setelah dilakukan metode Gauss-Jordan*/
+    {
         this.GaussJordan();
         return (this.PemilahSolusi()==1);
     }
