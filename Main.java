@@ -58,27 +58,37 @@ public class Main{
 			if (pil==1){
 				Spl spl = new Spl();
 				int met,metInput;
-				do{	// Metode input
+				do{	// Pilihan Metode input
 					metodeInput();
 					metInput = input.nextInt();
 					if (metInput==1){
 						spl.BacaSPL();
 					}
 					else if (metInput==2){
-						spl.BacaFileSPL("SPL.txt");
+						System.out.print("Masukkan nama file: ");
+						String namaFile = input.next();
+						spl.BacaFileSPL(namaFile);
 					}
 				}while (!((metInput>0) && (metInput<=2)));
 				
-				do{ // Metode penyelesaian
+				System.out.println();
+				do{ // Pilhan Metode penyelesaian
 					metode();
 					met = input.nextInt();
 					if ((met>0) && (met<=4)){
 						System.out.println();
 						spl.PenyelesaianSPL(met);
-						spl.OutputSPL();
-						spl.OutputMatriks();
 					}
 				}while (!((met>0) && (met<=4)));
+
+				do{
+					metodeOutput();
+					met = input.nextInt();
+				}while ((met!=1) && (met!=2));
+				System.out.println();
+				if (met==1) spl.TulisFileSPL("hasil.txt");
+				spl.OutputSPL();
+				spl.OutputMatriks();
 				System.out.println();
 			}
 

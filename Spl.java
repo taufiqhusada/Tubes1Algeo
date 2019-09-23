@@ -6,7 +6,7 @@ public class Spl extends Matriks{
     
     public Scanner input = new Scanner(System.in);  // untuk melakukan input
     public double[] Solusi; // untuk menyimpan solusi SPL yang unik
-    public String[] Solusi1; // untuk menyimpan solusi SPL yang memiliki solusi banyak (solusi parametrik)
+    public String[] Solusi1; // untuk menyimpan solusi SPL yang hasilnya solusi banyak (solusi parametrik) atau solusi SPL dalam tipe string
     public int NPers,NPeubah; // untuk menyimpan banyaknya persamaan dan peubah suatu SPL
     public int JenisSolusi; // untuk menyimpan status solusi : 1 apabila ada solusi (solusi unik), 2 apabila solusi banyak (parametrik), atau
                             // -1 apabila tidak ada solusi
@@ -74,8 +74,10 @@ public class Spl extends Matriks{
         System.out.println("Ini jawaban SPL");
         if (this.JenisSolusi==1){
             System.out.println("Solusi Unik");
+            this.Solusi1 = new String[this.NPeubah+1];
             for (int i = 1; i<this.Solusi.length;++i){
                 System.out.printf("x%d = %.2f\n",i,this.Solusi[i]);
+                this.Solusi1[i] = Double.toString(this.Solusi[i]);
             }
         }
         else if (this.JenisSolusi == 2){
@@ -88,6 +90,20 @@ public class Spl extends Matriks{
             System.out.println("Tidak ada solusi yang memenuhi");
         }
     }
+
+    public void TulisFileSPL(String namaFile) throws IOException{
+		File fout = new File(namaFile);
+		FileOutputStream fos = new FileOutputStream(fout);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		int i;
+        
+		for (i = 1; i<=this.NPeubah; ++i){
+			String s = "x" + Integer.toString(i) + " = " + this.Solusi1[i];
+			bw.write(s);
+			bw.newLine();
+		}
+		bw.close();
+	}
 
     /***********   Penyelesaian SPL    ***********/
     public void PenyelesaianSPL(int MetodePenyelesaian)
