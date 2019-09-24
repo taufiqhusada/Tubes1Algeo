@@ -229,7 +229,7 @@ public class Main{
 			else if (pil==6){
 				Interpolasi interpolasi = new Interpolasi();
 
-				int metInput;
+				int met,metInput;
 				do{	// Pilihan Metode input
 					metodeInput();
 					metInput = input.nextInt();
@@ -240,11 +240,23 @@ public class Main{
 						interpolasi.BacaFileInterpolasi("interpolasi.txt");
 					}
 				}while (!((metInput>0) && (metInput<=2)));
+				System.out.print("Masukkan nilai x yang akan ditaksir nilai fungsinya : ");
+        		interpolasi.X=input.nextDouble();
 
+				do{
+					metodeOutput();
+					met = input.nextInt();
+				}while ((met!=1) && (met!=2));
+				System.out.println();
 				interpolasi.PenyelesaianInterpolasi();
-				interpolasi.cetakPersPolinomial();
+				interpolasi.BikinPersPolinomial();
 				interpolasi.HasilInterpolasi();
-
+				
+				System.out.println("Persamaan polinomial interpolasinya adalah:");
+				System.out.println(interpolasi.Pers);
+				System.out.println("Nilai fungsi dari X yang ditaksir adalah:");
+				System.out.println(interpolasi.Hasil);
+				if (met==1) interpolasi.TulisFileInterpolasi("hasil.txt");
 			}
 			if (pil!=7) System.out.println();
 		}while(pil!=7);

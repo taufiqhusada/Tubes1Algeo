@@ -10,6 +10,8 @@ public class Interpolasi extends Spl{
     public double[][] arrPers;  // untuk menyimpan koordinat titik
     public int NbPers; // untuk menyimpan banyak titik yang diinput
     public double X;    // untuk meyimpan X yang akan dicari nilai Y nya
+    public String Pers; // untuk menyimpan persamaan polinomial
+    public String Hasil; // untuk menyimpan persamaan nilai taksiran fungsi di X
    
     /***********   Konstruktor    ***********/
     public void MakeInterpolasi(int NbPers,int X){
@@ -35,8 +37,6 @@ public class Interpolasi extends Spl{
                 this.arrPers[i][j]= input.nextDouble();
             }
         }
-        System.out.print("Masukkan nilai x yang akan ditaksir nilai fungsinya : ");
-        this.X=input.nextDouble();
     }
 
     public void BacaFileInterpolasi(String namaFile) throws FileNotFoundException{
@@ -62,29 +62,27 @@ public class Interpolasi extends Spl{
         }
     
     /***********   Output    ***********/
-    /*public void TulisFileInterpolasi(String namaFile) throws IOException {
-        Menyimpan solusi spl ke file 'namaFile'.
-    
+    public void TulisFileInterpolasi(String namaFile) throws IOException {
+        /* Menyimpan solusi spl ke file 'namaFile'.
+        */
         File fout = new File(namaFile);
         FileOutputStream fos = new FileOutputStream(fout);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-        int i;
         
-        if (this.JenisSolusi==-1){
-            bw.write("Tidak ada solusi yang memenuhi");
-        }
-        else if (this.JenisSolusi==1){
-            bw.write("Solusi unik");
-        }
-        else{
-            bw.write("Solusi banyak");
-        }
+        bw.write("Persamaan polinomial interpolasinya adalah:");
+        bw.newLine();
+        bw.write(this.Pers);
+        bw.newLine();
         bw.newLine();
         
+        bw.write("Nilai fungsi dari X yang ditaksir adalah:");
+        bw.newLine();
+        bw.write(this.Hasil);
+        bw.newLine();
         bw.close();
-    }*/
+    }
     
-    public void HasilInterpolasi(){
+    public double FungsiInterpolasi(double X){
         double result, temp;
         result=0;
         for(int i=1; i<=NbPers; i++){
@@ -94,43 +92,46 @@ public class Interpolasi extends Spl{
             }
             result+=temp;
         }
-        System.out.printf("P(%.2f) = %.2f\n",X,result);
+        return result;
+    }
+
+    public void HasilInterpolasi(){
+        this.Hasil = "P(" + Double.toString(X) + ") = "+ Double.toString(FungsiInterpolasi(X));
     }
 
 
-    public void cetakPersPolinomial(){
+    public void BikinPersPolinomial(){
         double temp;
         boolean awal = false;
-        System.out.print("P(X) = ");
+        this.Pers = "P(X) = ";
         for(int i=1; i<=NbPers; i++){
             temp = this.Solusi[i];
             if((i==1) && (temp!=0)){
-                System.out.print(temp);
+                this.Pers += Double.toString(temp);
                 awal=true;
             }
             else if (this.Solusi[i]>0){
                 if (awal){
-                    System.out.printf(" + ");
+                    this.Pers += " + ";
                 }
                 else{
                     awal = true;
                 }
-                if (temp==1) System.out.printf("X^%d",(i-1));
-                else System.out.printf("%.2fX^%d",temp,(i-1));
+                if (temp==1) this.Pers += "X^"+Integer.toString(i-1);
+                else this.Pers += Double.toString(temp)+"X^"+Integer.toString(i-1);
             }
             else if (this.Solusi[i]<0){
                 if (awal){
-                    System.out.printf(" - ");
+                    this.Pers += " - ";
                 }
                 else{
-                    System.out.printf("-");
+                    this.Pers += "-";
                     awal = true;
                 }
-                if (temp==-1) System.out.printf("X^%d",(i-1));
-                else System.out.printf("%.2fX^%d",(temp*(-1)),(i-1));
+                if (temp==-1) this.Pers += "X^"+Integer.toString(i-1);
+                else this.Pers += Double.toString(temp*(-1)) + "X^"+ Integer.toString(i-1);
             } //ketika spl.solusi[i] = 0 ,tidak mencetak apapun
         }
-        System.out.println();
     }
 
     public void KonversiKeMatriks(){
