@@ -4,45 +4,53 @@ import java.util.Scanner;
 import java.lang.Math; 
 
 public class Matriks{
-	public int NBrsEff;		
-	public int NKolEff;
-	public double [][] M;
+	public int NBrsEff;				// attribut untuk menyimpan jumlah baris efektif	
+	public int NKolEff;				// attribut untuk menyimpan jumlah kolom efektif
+	public double [][] M;			// attribut untuk menyimpan elemen dari matriks ke dalam array 2D
 
 	public Scanner input = new Scanner(System.in);
 
 	public void MakeMatriks(int NB, int NK){
+		// Method untuk konstuktor matriks dengan jumlah baris dan kolom yang diberikan
 		this.M = new double [NB+1][NK+1];
 		this.NBrsEff = NB;
 		this.NKolEff = NK;
 	}
 
 	public void MakeMatriks(int NB, int NK, double[][] tab){
+		// Method untuk konstuktor matriks dengan jumlah baris, kolom yang diberikan, dan array elemen yang ditentukan
 		this.M = tab;
 		this.NBrsEff = NB;
 		this.NKolEff = NK;
 	}
 
 	public double Elmt(int i, int j){
+		// selektor elemen dari matriks untuk index i,j
 		return M[i][j];
 	}
 
 	public void SetElmt(int i, int j, double val){
+		// setter elemen di matriks, untuk index i,j, dengan value yang ditentukan
 		M[i][j] = val;
 	}
 
 	public int GetLastIdxBrs(){
+		// getter untuk untuk mendapatkan last index baris matriks
 		return NBrsEff;
 	}
 
 	public int GetLastIdxKol(){
+		// getter untuk untuk mendapatkan last index kolom matriks
 		return NKolEff;
 	}
 
 	public boolean IsSquare(){
+		// Method untuk mengecek apakah suatu matriks, merupakan matriks persegi atau tidak
 		return (NBrsEff==NKolEff);
 	}
 
 	public void BacaMatriks(){
+		// Method untuk melakukan membaca matriks dari input terminal
 		System.out.print("Masukkan jumlah baris: ");
 		int NB = input.nextInt();
 		System.out.print("Masukkan jumlah kolom: ");
@@ -53,6 +61,7 @@ public class Matriks{
 	}
 
 	public void BacaElemenMatriks(int NB, int NK){
+		// Method untuk membaca elemen matriks
 		for (int i = 1; i<=NB; ++i){
 			for (int j= 1; j<=NK; ++j){
 				SetElmt(i,j,input.nextDouble());
@@ -61,7 +70,7 @@ public class Matriks{
 	}
 
 	public void OutputMatriks(){
-		//System.out.println("Matriksnya sebagai berikut");
+		// method untuk mengoutput matriks di terminal 
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
 			for (int j=1; j<=GetLastIdxKol(); ++j){
 				System.out.printf("%.2f ",Elmt(i,j));
@@ -71,7 +80,7 @@ public class Matriks{
 	}
 
 	public void CopyTab(double[][] tabAwal, double[][] tabTarget, int sizeRow, int sizeCol){
-		// prosedur untuk mengcopy isi array tabAwal ke array tabTarget
+		// method untuk mengcopy isi array tabAwal ke array tabTarget
 		for (int i = 1; i<=sizeRow; ++i){
 			for (int j = 1; j<=sizeCol; ++j){
 				tabTarget[i][j] = tabAwal[i][j];
@@ -148,7 +157,7 @@ public class Matriks{
 
 
 	public Matriks MatriksCofactor(){
-		// Menghasilkan matriks yang elemen-elemennya adalah kofaktor dari matriksnya
+		// Fungsi untuk menghasilkan matriks yang elemen-elemennya adalah kofaktor dari matriksnya
 		Matriks newMat = new Matriks();
 		newMat.MakeMatriks(NBrsEff, NKolEff);
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
@@ -163,7 +172,7 @@ public class Matriks{
 	}
 
 	public double Determinan(){
-		// Prosedur untuk menentukan determinan dari matriks dengan metode kofaktor
+		// Fungsi untuk menentukan determinan dari matriks dengan metode kofaktor
 		if (this.NBrsEff==1 && this.NKolEff==1) return Elmt(1,1);
 		else{
 			double res=0.0;
@@ -178,7 +187,7 @@ public class Matriks{
 	}
 
 	public double DeterminanOBE(){
-		// prosedur untuk mencari determinan matrix dengan metode Operasi Baris Elmenter (OBE)
+		// Fungsi untuk mencari determinan matrix dengan metode gauss
 		Matriks newMat = new Matriks();
 		newMat.MakeMatriks(this.GetLastIdxBrs(), this.GetLastIdxKol(), this.M);
 		double res = 1;
@@ -213,14 +222,14 @@ public class Matriks{
 	}
 
 	public Matriks MatriksAdjoin(){
-		//Fungsi untuk mereturn adj matriks
+		//Fungsi untuk mereturn adjoin matriks
 		Matriks newMat = this.MatriksCofactor();	// Membuat matriks kofaktor
 		newMat.Tranpose();							// Mentranpose matriks kofaktor
 		return newMat;
 	}
 
 	public Matriks MatriksInverseOBE(){
-		// Fungsi untuk menghasilkan matrix inverse dengan metode operasi baris elementer
+		// Fungsi untuk menghasilkan matrix inverse dengan metode operasi baris elementer dan Gauss
 		Matriks newMat = new Matriks();
 		newMat.MakeMatriks(NBrsEff,NKolEff*2);
 		for (int i = 1; i<=GetLastIdxBrs(); ++i){
@@ -249,7 +258,7 @@ public class Matriks{
 
 
 	public Matriks MatriksInverse(){
-		// Fungsi untuk mereturn inverse matriks
+		// Fungsi untuk mereturn inverse matriks dengan metode (1/det(A))*adj(A)
 		// I.S : Matriks persegi yang invertible
 		Matriks newMat = this.MatriksAdjoin();
 		double det = this.Determinan();
@@ -357,6 +366,7 @@ public class Matriks{
 	}
 
 	public void BacaFileMatriks(String namaFile) throws FileNotFoundException{
+		// prosedur untuk melakukan pembacaan matriks dari file yang ditentukan
 		Scanner input = new Scanner(new FileReader(namaFile));
 		double [][] inputArray = new double[100][100];
 		int i = 1, row=0, col = 0;
@@ -375,6 +385,7 @@ public class Matriks{
 	}
 
 	public void TulisFileMatriks(String namaFile) throws IOException{
+		// prosedur untuk menulis matriks ke dalam file yang ditentukan
 		File fout = new File(namaFile);
 		FileOutputStream fos = new FileOutputStream(fout);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
