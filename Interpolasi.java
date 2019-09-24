@@ -83,6 +83,7 @@ public class Interpolasi extends Spl{
     }
     
     public double FungsiInterpolasi(double X){
+    /* Mengembalikan nilai F(X) */
         double result, temp;
         result=0;
         for(int i=1; i<=NbPers; i++){
@@ -96,11 +97,13 @@ public class Interpolasi extends Spl{
     }
 
     public void HasilInterpolasi(){
+    /* Mengeset atribut Hasil menjadi persamaan nilai X */    
         this.Hasil = "P(" + Double.toString(X) + ") = "+ Double.toString(FungsiInterpolasi(X));
     }
 
 
     public void BikinPersPolinomial(){
+    /* Mengeset atribut Pers menjadi persamaan polinomial interpolasi */
         double temp;
         boolean awal = false;
         this.Pers = "P(X) = ";
@@ -135,6 +138,7 @@ public class Interpolasi extends Spl{
     }
 
     public void KonversiKeMatriks(){
+    /* Membikin matriks dari perpangkatan nilai x dari titik-titik yang telah dimasukkan */
         double temp;
 
         this.MakeMatriks(NbPers,(NbPers+1));
@@ -154,6 +158,7 @@ public class Interpolasi extends Spl{
     }
 
     public void PenyelesaianInterpolasi(){
+    /* Menyelesaikan persoalan interpolasi */
         this.KonversiKeMatriks();
         if (this.IsAdaSolusi()){
             this.Solusi = this.SolusiSPLGaussJordan();
