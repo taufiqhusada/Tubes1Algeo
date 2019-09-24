@@ -225,6 +225,27 @@ public class Main{
 				}
 			}
 
+			// interpolasi
+			else if (pil==6){
+				Interpolasi interpolasi = new Interpolasi();
+
+				int metInput;
+				do{	// Pilihan Metode input
+					metodeInput();
+					metInput = input.nextInt();
+					if (metInput==1){
+						interpolasi.BacaInterpolasi();
+					}
+					else if (metInput==2){
+						interpolasi.BacaFileInterpolasi("interpolasi.txt");
+					}
+				}while (!((metInput>0) && (metInput<=2)));
+
+				interpolasi.PenyelesaianInterpolasi();
+				interpolasi.cetakPersPolinomial();
+				interpolasi.HasilInterpolasi();
+
+			}
 			if (pil!=7) System.out.println();
 		}while(pil!=7);
 
