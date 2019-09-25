@@ -1,3 +1,5 @@
+package src;
+
 import java.util.Scanner;
 import java.io.*;
 import java.lang.Math; 

@@ -1,5 +1,3 @@
-Persamaan polinomial interpolasinya adalah:
-P(X) = X^3
-
-Nilai fungsi dari X yang ditaksir adalah:
-P(4.0) = 64.0
+Solusi unik
+x1 = -0.5
+x2 = 1.5
