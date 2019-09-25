@@ -9,6 +9,7 @@ public class Main{
 	static Scanner input = new Scanner(System.in);
 
 	public static void menu(){
+	/* Menampilkan menu utama */
 		System.out.println("Selamat datang di operasi-operasi matriks");
 		System.out.println("Menu:");
 		System.out.println("1. Sistem Persamaan Linier");
@@ -21,6 +22,7 @@ public class Main{
 	}
 
 	public static void metode(){
+	/* Menampilkan opsi metode yang dapat digunakan untuk menyelesaikan persoalan */
 		System.out.println("Metode apa yang ingin digunakan?");
 		System.out.println("1. Metode Eliminasi Gauss");
 		System.out.println("2. Metode Eliminasi Gauss Jordan");
@@ -29,18 +31,21 @@ public class Main{
 	}
 
 	public static void metodeOutput(){
+	/* Menampilkan opsi metode apakah akan disimpan ke file */
 		System.out.println("Apakah ingin di save ke file?");
 		System.out.println("1. iya");
 		System.out.println("2. tidak");
 	}
 
 	public static void metodeInput(){
+	/* Menampilkan opsi metode input */
 		System.out.println("Metode input apa yang ingin digunakan?");
 		System.out.println("1. input dari terminal");
 		System.out.println("2. input dari file .txt");
 	}
 
 	public static void outputToFile(double x) throws IOException{
+	/* Untuk mengeluarkan/ menuliskan nilai x ke file hasil.txt */
 		File fout = new File("hasil.txt");
 		FileOutputStream fos = new FileOutputStream(fout);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
@@ -49,6 +54,7 @@ public class Main{
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+	/* program utama */
 		int pil;
 		do{
 			menu();
@@ -261,24 +267,6 @@ public class Main{
 				if (met==1) interpolasi.TulisFileInterpolasi("hasil.txt");
 			}
 			if (pil!=7) System.out.println();
-		}while(pil!=7);
-
-		/*Matriks mat = new Matriks();
-		mat.BacaMatriks();
-		mat.OutputMatriks();
-		System.out.println(mat.DeterminanOBE());*/
-
-		
-		// Matriks mat1 = new Matriks();
-		// mat1.MakeMatriks(mat.GetLastIdxBrs(), mat.GetLastIdxKol(), mat.M);
-
-		
-		// Matriks matInverse2 = mat1.MatriksInverseOBE();
-		// matInverse2.OutputMatriks();
-
-		// System.out.println("==========");
-		// Matriks matInverse = mat.MatriksInverse();
-		// matInverse.OutputMatriks();
-		
+		}while(pil!=7);		
 	}
 }
