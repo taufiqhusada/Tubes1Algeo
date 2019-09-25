@@ -257,13 +257,19 @@ public class Main{
 				}while ((met!=1) && (met!=2));
 				System.out.println();
 				interpolasi.PenyelesaianInterpolasi();
-				interpolasi.BikinPersPolinomial();
-				interpolasi.HasilInterpolasi();
-				
-				System.out.println("Persamaan polinomial interpolasinya adalah:");
-				System.out.println(interpolasi.Pers);
-				System.out.println("Nilai fungsi dari X yang ditaksir adalah:");
-				System.out.println(interpolasi.HasilInterpolasi());
+				interpolasi.OutputMatriks();
+				if (interpolasi.JenisSolusi == 1){
+					interpolasi.BikinPersPolinomial();
+					interpolasi.HasilInterpolasi();
+					
+					System.out.println("Persamaan polinomial interpolasinya adalah:");
+					System.out.println(interpolasi.Pers);
+					System.out.println("Nilai fungsi dari X yang ditaksir adalah:");
+					System.out.println(interpolasi.HasilInterpolasi());
+				}
+				else{
+					System.out.println("Tidak ada persamaan polinomial interpolasi yang memenuhi karena terdapat titik-titik yang nilai x sama tetapi nilai y berbeda");
+				}
 				if (met==1) interpolasi.TulisFileInterpolasi("hasil.txt");
 			}
 			if (pil!=7) System.out.println();

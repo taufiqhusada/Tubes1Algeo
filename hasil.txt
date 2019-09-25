@@ -1,1 +1,5 @@
-Error, determinan matriks bernilai 0 sehingga tidak dapat diselesaikan dengan Metode Matriks Balikan
+Persamaan polinomial interpolasinya adalah:
+P(x) = 1.4604724999999998x - 1.0331562499999998x^2 + 2.667058720926571E15x^3 + 6.588811290839309E14x^4 + 1.867784307173114E14x^5
+
+Nilai fungsi dari X yang ditaksir adalah:
+P(2.0) = 3.7855477615709432E16

@@ -396,6 +396,7 @@ public class Spl extends Matriks{
     /* Mengembalikan true jika SPL tersebut ada memiliki solusi unik setelah dilakukan metode Gauss-Jordan*/
     {
         this.GaussJordan();
-        return (this.PemilahSolusi()==1);
+        this.JenisSolusi = this.PemilahSolusi();
+        return (this.JenisSolusi==1);
     }
 }

@@ -70,16 +70,21 @@ public class Interpolasi extends Spl{
         FileOutputStream fos = new FileOutputStream(fout);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
         
-        bw.write("Persamaan polinomial interpolasinya adalah:");
-        bw.newLine();
-        bw.write(this.Pers);
-        bw.newLine();
-        bw.newLine();
-        
-        bw.write("Nilai fungsi dari X yang ditaksir adalah:");
-        bw.newLine();
-        bw.write(this.HasilInterpolasi());
-        bw.newLine();
+        if (this.JenisSolusi==1){
+            bw.write("Persamaan polinomial interpolasinya adalah:");
+            bw.newLine();
+            bw.write(this.Pers);
+            bw.newLine();
+            bw.newLine();
+            
+            bw.write("Nilai fungsi dari X yang ditaksir adalah:");
+            bw.newLine();
+            bw.write(this.HasilInterpolasi());
+            bw.newLine();
+        }
+        else{
+            bw.write("Tidak ada persamaan polinomial interpolasi yang memenuhi karena terdapat titik-titik yang nilai x sama tetapi nilai y berbeda");
+        }
         bw.close();
     }
     
@@ -107,7 +112,7 @@ public class Interpolasi extends Spl{
     /* Mengeset atribut Pers menjadi persamaan polinomial interpolasi */
         double temp;
         boolean awal = false;
-        this.Pers = "P(X) = ";
+        this.Pers = "P(x) = ";
         for(int i=1; i<=NbPers; i++){
             temp = this.Solusi[i];
             if((i==1) && (temp!=0)){
@@ -121,8 +126,9 @@ public class Interpolasi extends Spl{
                 else{
                     awal = true;
                 }
-                if (temp==1) this.Pers += "X^"+Integer.toString(i-1);
-                else this.Pers += Double.toString(temp)+"X^"+Integer.toString(i-1);
+                if (temp!=1) this.Pers += Double.toString(temp);
+                this.Pers+="x"; 
+                if ((i-1)!=1) this.Pers+= "^"+Integer.toString(i-1);
             }
             else if (this.Solusi[i]<0){
                 if (awal){
@@ -132,8 +138,9 @@ public class Interpolasi extends Spl{
                     this.Pers += "-";
                     awal = true;
                 }
-                if (temp==-1) this.Pers += "X^"+Integer.toString(i-1);
-                else this.Pers += Double.toString(temp*(-1)) + "X^"+ Integer.toString(i-1);
+                if (temp!=-1) this.Pers += Double.toString(temp*(-1));
+                this.Pers += "x"; 
+                if ((i-1)!=1) this.Pers += "^" + Integer.toString(i-1);
             } //ketika spl.solusi[i] = 0 ,tidak mencetak apapun
         }
     }
