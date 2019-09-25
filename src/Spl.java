@@ -12,6 +12,7 @@ public class Spl extends Matriks{
     public int NPers,NPeubah; // untuk menyimpan banyaknya persamaan dan peubah suatu SPL
     public int JenisSolusi; // untuk menyimpan status solusi : 1 apabila ada solusi (solusi unik), 2 apabila solusi banyak (parametrik), atau
                             // -1 apabila tidak ada solusi
+    public String Error;
 
     /***********   Konstruktor    ***********/
     public void MakeSPL(int NPers,int NPeubah){
@@ -87,7 +88,7 @@ public class Spl extends Matriks{
             }  
         }
         else if (this.JenisSolusi==-1){
-            System.out.println("Tidak ada solusi yang memenuhi");
+            System.out.println(this.Error);
         }
     }
 
@@ -100,7 +101,7 @@ public class Spl extends Matriks{
 		int i;
         
         if (this.JenisSolusi==-1){
-            bw.write("Tidak ada solusi yang memenuhi");
+            bw.write(this.Error);
         }
         else if (this.JenisSolusi==1){
             bw.write("Solusi unik");
@@ -156,10 +157,12 @@ public class Spl extends Matriks{
                 }
                 else{
                     this.JenisSolusi=-1;
+                    this.Error = "Error, determinan matriks bernilai 0 sehingga tidak dapat diselesaikan dengan Metode Matriks Balikan";
                 }
             }
             else{
                 this.JenisSolusi=-1;
+                this.Error = "Error, matriks tidak berukuran persegi sehingga tidak dapat diselesaikan dengan Metode Matriks Balikan";
             }
         }
         else if (MetodePenyelesaian==4){     //Dengan Cramer
@@ -173,6 +176,7 @@ public class Spl extends Matriks{
                 System.out.println(det);
                 if (det==0){
                     this.JenisSolusi = -1;
+                    this.Error = "Error, determinan matriks bernilai 0 sehingga tidak dapat diselesaikan dengan Metode Cramer";
                 }
                 else{
                     this.Solusi = Mat.Cramer();
@@ -181,6 +185,7 @@ public class Spl extends Matriks{
             }
             else{
                 this.JenisSolusi = -1;
+                this.Error = "Error, matriks tidak berukuran persegi sehingga tidak dapat diselesaikan dengan metode Cramer";
             }
         }
 
@@ -216,6 +221,9 @@ public class Spl extends Matriks{
             else if (x == 2){
                 this.Solusi = this.SolusiSPLGaussJordan();
             }
+        }
+        else if (this.JenisSolusi==-1){
+            this.Error = "Tidak ada solusi yang memenuhi";
         }
     }
 

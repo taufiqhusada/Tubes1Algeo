@@ -13,7 +13,6 @@ public class Interpolasi extends Spl{
     public int NbPers; // untuk menyimpan banyak titik yang diinput
     public double X;    // untuk meyimpan X yang akan dicari nilai Y nya
     public String Pers; // untuk menyimpan persamaan polinomial
-    public String Hasil; // untuk menyimpan persamaan nilai taksiran fungsi di X
    
     /***********   Konstruktor    ***********/
     public void MakeInterpolasi(int NbPers,int X){
@@ -79,7 +78,7 @@ public class Interpolasi extends Spl{
         
         bw.write("Nilai fungsi dari X yang ditaksir adalah:");
         bw.newLine();
-        bw.write(this.Hasil);
+        bw.write(this.HasilInterpolasi());
         bw.newLine();
         bw.close();
     }
@@ -98,9 +97,9 @@ public class Interpolasi extends Spl{
         return result;
     }
 
-    public void HasilInterpolasi(){
-    /* Mengeset atribut Hasil menjadi persamaan nilai X */    
-        this.Hasil = "P(" + Double.toString(X) + ") = "+ Double.toString(FungsiInterpolasi(X));
+    public String HasilInterpolasi(){
+    /* Mengembalikan hasil persamaan dari nilai X */    
+        return ("P(" + Double.toString(X) + ") = "+ Double.toString(FungsiInterpolasi(X)) );
     }
 
 

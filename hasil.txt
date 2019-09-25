@@ -1,3 +1,1 @@
-Solusi unik
-x1 = -0.5
-x2 = 1.5
+Error, determinan matriks bernilai 0 sehingga tidak dapat diselesaikan dengan Metode Matriks Balikan

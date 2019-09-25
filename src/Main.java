@@ -257,7 +257,7 @@ public class Main{
 				System.out.println("Persamaan polinomial interpolasinya adalah:");
 				System.out.println(interpolasi.Pers);
 				System.out.println("Nilai fungsi dari X yang ditaksir adalah:");
-				System.out.println(interpolasi.Hasil);
+				System.out.println(interpolasi.HasilInterpolasi());
 				if (met==1) interpolasi.TulisFileInterpolasi("hasil.txt");
 			}
 			if (pil!=7) System.out.println();
