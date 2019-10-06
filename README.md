@@ -3,7 +3,7 @@
 ## Authors
 1. Okugata Fahmi Nurul Yudho Fauzan - 13518031/K-01 
 2. Taufiq Husada Daryanto - 13518058/K-01 
-3. Fathan Mubina - 13518064/K-0
+3. Fathan Mubina - 13518064/K-01
 
 ## Deskripsi
 Program pemodelan matriks, SPL, dan interpolasi dengan menggunakan bahasa java
