@@ -23,3 +23,9 @@ METODE
 2. Metode eliminasi Gauss-Jordan
 3. Metode matriks balikan
 4. Kaidah Cramer
+
+## Cara menjalankan program
+1. Buka terminal
+2. Menuju directory folder ini
+3. Ketik .\compile.bat
+4. Ketik .\run.bat
